@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- 
+		这个是视频的学习的主界面，提供了对视频数据的分类信息
+ -->
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../css/indexTitle.css" type="text/css" rel="stylesheet">
+    <style>
+   /**
+   处理网页主体
+   */
+        .body {
+           
+        }
+
+        div.wrapper {
+            margin: 0 auto;
+            overflow: hidden;
+            background-color: #ecedeb;
+        }
+   
+       div.wrapper div.container{
+         width: 1200px;
+         margin-top:20px;
+         margin: 0 auto;
+       }
+ 
+
+       /**
+       处理指示器部分
+       */
+       div.wrapper div.container div.indictor{
+        overflow: hidden;
+        line-height: 25px;
+        margin: 20px 0px;
+       }
+       
+       div.wrapper div.container div.indictor img.indictorImg{
+       		position: relative;
+       		top: 3px;
+       }
+       /*内容主体*/
+       div.wrapper div.container div.contentBox{
+       		overflow: hidden;
+       		width: 1120px;
+       		margin-top:20px;
+       		margin:0 auto;
+       		
+       }
+		/*内容主体的头部*/
+		div.wrapper div.container div.contentBox div.contentHead{
+		 	background-color:#fff;
+		 	overflow: hidden;
+		 	padding: 10px;
+		}
+		/*内容主体的头部的分类*/
+		div.wrapper div.container div.contentBox div.contentHead div.contentHeadClassBox{
+		    padding-bottom:20px;
+			border-bottom: 1px solid #efefef;
+		}
+		
+		ul.contentHeadClassBoxUl{
+			display: inline-block;
+		}
+		li.contentHeadClassBoxUl_li{
+			display: inline-block;
+			padding:0px 20px;
+		}
+		.currentSelect{
+			color:#ef4868;
+		}
+		
+		
+		/*---------------------*/
+		div.contentHeadDestribute{
+			overflow: hidden;
+		}
+		
+		div.contentHeadDestributeLeft{
+			float:left;
+			width: 600px;
+			padding-left: 20px;
+			padding-top: 20px;
+			text-indent:2em;
+		}
+		
+		div.contentHeadDestributeRight{
+		float: right;
+		}
+		
+		div.contentHeadDestributeRight img.contentHeadDestributeRight_Img{
+			width:283px;
+			height:200px;
+			margin-right: 20px;
+			margin-top: 20px;
+		}
+		
+		/*---------------------*/
+		div.contentBoxVideoBox{
+		   overflow: hidden;
+		}
+		
+		div.contentBoxVideoBox_item_imgBox{
+			
+		}
+		
+		div.contentBoxVideoBox_item{
+		 	margin: 20px 5px 0px 5px;;
+		 	overflow:hidden;
+		 	display:inline-block;
+		 	padding-bottom:5px;
+		 	background-color:#fff;
+		 	width:270px;
+		}
+		
+		img.contentBoxVideoBox_item_img{
+		   width:264px;
+		   height:174px;
+		  margin-left: 3px;
+		}
+		
+		p.contentBoxVideoBox_item_title{
+			font-size: 15px;
+			width:260px;
+			color:#111;
+			height:41px;
+			padding: 0px 5px;
+		}
+		
+		p.contentBoxVideoBox_itemDestribute{
+			font-size: 14px;
+			width:260px;
+			height:41px;
+			color:#333;
+			padding: 5px 5px 0px 2px;
+		}
+		/*---------------------*/
+		div.contentBoxSplitePage{
+			margin: 20px;
+		}
+		
+		
+		  img.img-item-user {
+            position: relative;
+            top: 10px;
+            margin-right: 10px;
+            border-radius: 15px;
+        }
+        
+        .contentBoxSplitePage span{
+           display: inline-block;
+             padding:0px 10px;
+        }
+        
+        /*当前页面的版权信息*/
+        div.copyRightBottomBox{
+        	background-color: #fff;
+        	height: 50px;
+        	font-size:12px;
+        	color:#504d50;
+        	line-height:50px;
+        	text-align: center;
+        }
+			
+    </style>
+    <script type="text/javascript" src="../js/request.js"></script>
+    <script>
+    
+    /**
+    存放的是所有视频的数据信息，这个数据是一个json的字符串，需要通过JSON.parse进行解析成对象，
+    该对象在parseVideoAllList方法调用之后被赋值
+    该对象可以被解析成为一个List<Article>对象，下面是article对象的属性介绍
+    {"videoName":"HTML基础02_标准结构",
+    	"videoAddress":"http://localhost:8080/Blog/video/HTML基础02_标准结构.mp4",
+    	"videoSize":"221MB","uploadTime":"201811131735",
+    	"videoNote":"HTML基础02_标准结构",
+    	"videoDestribute":"HTML基础02_标准结构",
+    	"authorid":111111,
+    	"classfy":"html基础教程设计",
+    	"classOrder":"1"
+    }
+     */
+    var globalVideoListJsonResponse;
+     
+     /**
+     全局的视频数据的分类信息的显示，
+     获得额数据是分类过的videolist
+     下面是json数据的基本组成格式
+     [{"classfy":"html基础教程设计","videos":[{}]},{"classfy":"html基础教程设计","videos":[{}]}]
+     累不是一个videos的数组，存放的是每一个video对象
+     
+     */
+     var globalVideoByClassfyList;
+     
+     /**
+     当前被选中的分类的名称
+     */
+     var currentSelectClassName;
+     
+     /**
+     当前的页面指示,
+     如果我们选中的的分类名是currentSelectClassName
+     那么按照我们所说的如果分页的大小是4，也就意味着我们的数据会出现多个界面，
+     这个参数的作用就是记录当前的页面处以分页的位置
+     */
+	var currentPageIndex=0;
+     /*
+     当前分类视频的数据
+     这个数据是一个对象，并不是一个简单的string数据，不在需要JSON.parse()进行数据的反序列化
+     */
+     var currentSelectClassVideoList;
+     
+     
+     /**
+     这个是我们设置的分页的大小
+     */
+     var pageSize=16;
+     
+    
+    	/**
+    	构建请求的解析对象
+    	*/
+    	    	
+    	var parseResponse={
+    			/**
+    			解析所有的视频的数据
+    			整个程序还不太完善，不具有分页的功能实现
+    			所以需要编码实现数据的分页显示，
+    			*/
+			parseVideoAllList:function(jsonResponse){
+				//alert(jsonResponse)
+				var videoListObj=JSON.parse(jsonResponse);
+				globalVideoListJsonResponse=jsonResponse;
+				 //设置当前被选中的视频分类数据的集合
+				 currentSelectClassVideoList=videoListObj;
+				(function(){
+					var contentBoxVideoBox=document.getElementById("contentBoxVideoBox");
+					contentBoxVideoBox.innerHTML="";
+					for(var i=0;i<pageSize;i++){
+						if(videoListObj.length<=i){
+							return;//如果当前i的值>数据的长度，我们就返回，因为里面不存在数据了
+						}
+						var articleObj=videoListObj[i];
+						var videoName=articleObj.videoName;
+						var videoAddress=articleObj.videoAddress;
+				        var videoDestribute=articleObj.videoDestribute;
+				        var serverUrl = "http://localhost:8080/Blog/VideoServlet?videoAddress=" + videoAddress;
+				        var innerHtml = "<div class=\"contentBoxVideoBox_item\">\n" +
+				            "     <a href=\"" + serverUrl + "\">\n" +
+				            "      <!-- 视频列表图片 -->\n" +
+				            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"http://localhost:8080/Blog/html/img/videoListBg.jpg\"/></div>\n" +
+				            "      <!-- 视频的标题 -->\n" +
+				            "      <p class=\"contentBoxVideoBox_item_title\">" + videoName + "</p>\n" +
+				            "      <!-- 视频的一些描述 -->\n" +
+				            "      <p class=\"contentBoxVideoBox_itemDestribute\">\n" +
+				            "      " + videoDestribute + "\n" +
+				            "      </p>\n" +
+				            "     </a>\n" +
+				            "    </div>";
+				        contentBoxVideoBox.innerHTML+=innerHtml;   
+					}
+				})();
+			},  
+    		/**
+    		获得根据分类获得的数据
+    		[{"classfy":"html基础教程设计","videos":[{}]},{"classfy":"html基础教程设计","videos":[{}]}]
+    		*/
+    		parseVideoByClassfy:function(jsonResponse){
+    			//alert(jsonResponse)
+    			globalVideoByClassfyList=jsonResponse;
+    			var classSetObj=JSON.parse(jsonResponse);
+    			//更新界面的分类的显示
+    			var classBox=document.getElementById("contentHeadClassBox");
+    			for(var i=0;i<classSetObj.length;i++){
+    				var classfy=classSetObj[i].classfy;
+    				var innerHtml="<li class=\"contentHeadClassBoxUl_li\"><a href=\"#\"><span onclick=\"changeSelectColor(this)\">"+classfy+"</span></a></li>";
+    				classBox.innerHTML+=innerHtml;
+    			}
+    			//处理li里边的点击效果的变色	
+    		}
+    	}
+    	
+    
+    </script>
+    
+    <!-- 这一部分的代码是用来解析用户登录设置的回调 -->
+      <script>
+    function ParseResponse() {
+    	  /*
+        下面的代码是用来检测用户是否已经登录
+        */
+        
+        /**
+         * 用户状态的查询
+         * @param ev
+         */
+        this.userLoginInfo = function (jsonResponse) {
+           //alert(jsonResponse)
+            var userStatus = JSON.parse(jsonResponse);
+            var responseResult=userStatus.responseResult;
+            if (responseResult.errorCode == 1) {
+                var userInfo = userStatus.user;
+                var urlAddress="http://localhost:8080/Blog/UserServlet?cancellation=true";
+                //代表已经登录了
+                var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
+                    "            <a href=\"\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
+                var loginBox = document.getElementById("login-box");
+                loginBox.innerHTML = innerhtml;
+
+                var cancellationButton=document.getElementsByClassName("cancellationButton")[0];
+                cancellationButton.onclick=function(ev){
+                	var request = new Request();
+                    var parseData = new ParseResponse();		
+                    //请求下线地址返回数据
+                    request.requestGet(urlAddress, parseData.parseCanellationData);
+                }
+            }
+        }
+            
+            this.parseCanellationData=function(jsonResponse){
+            	//alert(jsonResponse);
+            } 
+    }
+    </script>
+  
+    <script type="text/javascript">
+    
+    //处理分类列表的点击事件的处理
+    function changeSelectColor(self){
+    		var classBox=document.getElementById("contentHeadClassBox");
+    		var spanS=classBox.getElementsByTagName("span");
+			for(var i=0;i<spanS.length;i++){
+				spanS[i].className="";
+			}
+			self.className="currentSelect";  	
+			
+			//更新对应的数据的信息的显示
+			classListObj=JSON.parse(globalVideoByClassfyList);
+			for(i=0;i<classListObj.length;i++){
+				if(classListObj[i].classfy==self.innerText){
+					//直接加载数据
+					//alert(JSON.stringify(classListObj[i]))
+					var contentBoxVideoBox=document.getElementById("contentBoxVideoBox");
+					 contentBoxVideoBox.innerHTML="";
+					 var length=classListObj[i].videos.length;
+					 //设置当前被选中的视频分类数据的集合
+					 currentSelectClassVideoList=classListObj[i].videos
+					for(var j=0;j<pageSize;j++){
+						if(length<=j){
+							return;
+						}
+						var articleObj=classListObj[i].videos[j];
+						var videoName=articleObj.videoName;
+						var videoAddress=articleObj.videoAddress;
+				        var videoDestribute=articleObj.videoDestribute;
+				        var serverUrl = "http://localhost:8080/Blog/VideoServlet?videoAddress=" + videoAddress;
+				        var innerHtml = "<div class=\"contentBoxVideoBox_item\">\n" +
+				            "     <a href=\"" + serverUrl + "\">\n" +
+				            "      <!-- 视频列表图片 -->\n" +
+				            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"http://localhost:8080/Blog/html/img/videoListBg.jpg\"/></div>\n" +
+				            "      <!-- 视频的标题 -->\n" +
+				            "      <p class=\"contentBoxVideoBox_item_title\">" + videoName + "</p>\n" +
+				            "      <!-- 视频的一些描述 -->\n" +
+				            "      <p class=\"contentBoxVideoBox_itemDestribute\">\n" +
+				            "      " + videoDestribute + "\n" +
+				            "      </p>\n" +
+				            "     </a>\n" +
+				            "    </div>";
+				        contentBoxVideoBox.innerHTML+=innerHtml;   
+					}
+				}		
+			}
+			
+		
+			if(self.innerHTML=="全部"){
+				var contentBoxVideoBox=document.getElementById("contentBoxVideoBox");
+				 contentBoxVideoBox.innerHTML="";
+				parseResponse.parseVideoAllList(globalVideoListJsonResponse);
+			}
+		
+			
+			
+    }
+    	
+   window.onload=function(){
+        /**
+        请求视频的所有数据信息
+        */
+    	(function (){
+    		var request=new Request();
+    		var url="http://localhost:8080/Blog/VideoServlet?allVideo=1";
+    		request.requestGet(url,parseResponse.parseVideoAllList);
+    	})();
+        
+        
+        /**
+        请求根据分类获得的数据
+        */
+        (function(){
+        	var request=new Request();
+        	var url="http://localhost:8080/Blog/VideoServlet?classfy=1"
+        	request.requestGet(url,parseResponse.parseVideoByClassfy);
+        })();
+        
+        
+        /**
+        检验用户是否已经登录
+        */
+        (function(){
+        	var requestUserStatus="http://localhost:8080/Blog/UserServlet?status=1";
+            var req = new Request();
+            var parseRequest = new ParseResponse();
+            req.requestGet(requestUserStatus, parseRequest.userLoginInfo);
+        })();
+        
+        /**
+        处理页面分页的效果显示
+        */
+        function PageProgress(){
+        	
+        	/**
+        	计算当前被选中分类的数据结果的分页数量
+        	*/
+        	this.calcelatle=function(){
+        		var pageCount=currentSelectClassVideoList.length/pageSize;
+        		//pageCount=currentSelectClassVideoList.length%pageSize==0?pageCount:++pageCount;
+        		pageCount= parseInt(pageCount);
+        		//alert(currentSelectClassVideoList)
+        		if(currentSelectClassVideoList.length%pageSize==0){
+        		}else{
+        			pageCount++;
+        		}
+        		return pageCount;
+        	}
+        	
+        	
+        	//处理上翻页的显示
+        	this.progressUpPage=function(){
+        		var pageCount=this.calcelatle();
+        		
+        		if(currentPageIndex==0){
+        			//代表前面已经没有数据了
+        			alert("已经是第一页了!");
+        			return;
+        		}
+        		currentPageIndex--;
+        		//找到内容盒子的填充对象
+        		var contentBoxVideoBox=document.getElementById("contentBoxVideoBox");
+				 contentBoxVideoBox.innerHTML="";
+        		var offsetStart=currentPageIndex*pageSize;
+        		for(var i=0;i<pageSize;i++){
+        			var articleObj=currentSelectClassVideoList[i+offsetStart];
+        			var videoName=articleObj.videoName;
+					var videoAddress=articleObj.videoAddress;
+			        var videoDestribute=articleObj.videoDestribute;
+			        var serverUrl = "http://localhost:8080/Blog/VideoServlet?videoAddress=" + videoAddress;
+			        var innerHtml = "<div class=\"contentBoxVideoBox_item\">\n" +
+			            "     <a href=\"" + serverUrl + "\">\n" +
+			            "      <!-- 视频列表图片 -->\n" +
+			            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"http://localhost:8080/Blog/html/img/videoListBg.jpg\"/></div>\n" +
+			            "      <!-- 视频的标题 -->\n" +
+			            "      <p class=\"contentBoxVideoBox_item_title\">" + videoName + "</p>\n" +
+			            "      <!-- 视频的一些描述 -->\n" +
+			            "      <p class=\"contentBoxVideoBox_itemDestribute\">\n" +
+			            "      " + videoDestribute + "\n" +
+			            "      </p>\n" +
+			            "     </a>\n" +
+			            "    </div>";
+			        contentBoxVideoBox.innerHTML+=innerHtml;   
+        		}
+        		
+        		
+        	}
+        	//处理回到首页面的数据显示
+        	this.progressMainPage=function(){
+        		//设置指示器复位
+        		currentPageIndex=0;
+        		//找到内容盒子的填充对象
+        		var contentBoxVideoBox=document.getElementById("contentBoxVideoBox");
+				 contentBoxVideoBox.innerHTML="";
+				 for(var i=0;i<pageSize;i++){
+	        			var articleObj=currentSelectClassVideoList[i];
+	        			var videoName=articleObj.videoName;
+						var videoAddress=articleObj.videoAddress;
+				        var videoDestribute=articleObj.videoDestribute;
+				        var serverUrl = "http://localhost:8080/Blog/VideoServlet?videoAddress=" + videoAddress;
+				        var innerHtml = "<div class=\"contentBoxVideoBox_item\">\n" +
+				            "     <a href=\"" + serverUrl + "\">\n" +
+				            "      <!-- 视频列表图片 -->\n" +
+				            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"http://localhost:8080/Blog/html/img/videoListBg.jpg\"/></div>\n" +
+				            "      <!-- 视频的标题 -->\n" +
+				            "      <p class=\"contentBoxVideoBox_item_title\">" + videoName + "</p>\n" +
+				            "      <!-- 视频的一些描述 -->\n" +
+				            "      <p class=\"contentBoxVideoBox_itemDestribute\">\n" +
+				            "      " + videoDestribute + "\n" +
+				            "      </p>\n" +
+				            "     </a>\n" +
+				            "    </div>";
+				        contentBoxVideoBox.innerHTML+=innerHtml;   
+	        		} 
+        	}
+        	//处理回到结束界面的数据显示
+        	this.progressEndPage=function(){
+        		//设置指示器的位置为界面能够设置的最大值
+        		var pageCount=this.calcelatle();
+        		//alert(pageCount);
+        		currentPageIndex=pageCount-1;//代表的是最后一页的page索引位置
+        		var offsetStart=currentPageIndex*pageSize;//得到了视频数据的起始位置
+        		//alert(offsetStart)
+        		//找到内容盒子的填充对象
+        		var contentBoxVideoBox=document.getElementById("contentBoxVideoBox");
+				contentBoxVideoBox.innerHTML="";
+				 for(var i=0;i<currentSelectClassVideoList.length-offsetStart;i++){
+	        			var articleObj=currentSelectClassVideoList[i+offsetStart];
+	        			var videoName=articleObj.videoName;
+						var videoAddress=articleObj.videoAddress;
+				        var videoDestribute=articleObj.videoDestribute;
+				        var serverUrl = "http://localhost:8080/Blog/VideoServlet?videoAddress=" + videoAddress;
+				        var innerHtml = "<div class=\"contentBoxVideoBox_item\">\n" +
+				            "     <a href=\"" + serverUrl + "\">\n" +
+				            "      <!-- 视频列表图片 -->\n" +
+				            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"http://localhost:8080/Blog/html/img/videoListBg.jpg\"/></div>\n" +
+				            "      <!-- 视频的标题 -->\n" +
+				            "      <p class=\"contentBoxVideoBox_item_title\">" + videoName + "</p>\n" +
+				            "      <!-- 视频的一些描述 -->\n" +
+				            "      <p class=\"contentBoxVideoBox_itemDestribute\">\n" +
+				            "      " + videoDestribute + "\n" +
+				            "      </p>\n" +
+				            "     </a>\n" +
+				            "    </div>";
+				        contentBoxVideoBox.innerHTML+=innerHtml;   
+	        		}
+
+        	}
+        	//处理下一页的效果显示
+        	this.progressDownPage=function(){
+        		var pageCount=this.calcelatle();
+        		if(currentPageIndex==(pageCount-1)){//代表的是已经是最后一页
+        			alert("已经是最后一页了");
+        			return;
+        		}
+        		currentPageIndex++;
+        		//计算偏移量
+        		var offsetStart=currentPageIndex*pageSize;
+        	
+        		//反之进行数据的显示操作
+        		//找到内容盒子的填充对象
+        		var contentBoxVideoBox=document.getElementById("contentBoxVideoBox");
+				contentBoxVideoBox.innerHTML="";
+        		for(var i=0;i<currentSelectClassVideoList.length-offsetStart;i++){
+        			var articleObj=currentSelectClassVideoList[i+offsetStart];
+        			var videoName=articleObj.videoName;
+					var videoAddress=articleObj.videoAddress;
+			        var videoDestribute=articleObj.videoDestribute;
+			        var serverUrl = "http://localhost:8080/Blog/VideoServlet?videoAddress=" + videoAddress;
+			        var innerHtml = "<div class=\"contentBoxVideoBox_item\">\n" +
+			            "     <a href=\"" + serverUrl + "\">\n" +
+			            "      <!-- 视频列表图片 -->\n" +
+			            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"http://localhost:8080/Blog/html/img/videoListBg.jpg\"/></div>\n" +
+			            "      <!-- 视频的标题 -->\n" +
+			            "      <p class=\"contentBoxVideoBox_item_title\">" + videoName + "</p>\n" +
+			            "      <!-- 视频的一些描述 -->\n" +
+			            "      <p class=\"contentBoxVideoBox_itemDestribute\">\n" +
+			            "      " + videoDestribute + "\n" +
+			            "      </p>\n" +
+			            "     </a>\n" +
+			            "    </div>";
+			        contentBoxVideoBox.innerHTML+=innerHtml;   
+        		}
+        	}
+        }
+        
+        
+        /**
+        进行数据的分页显示,先使用4进行测试数据的分页能力
+        */
+        
+        (function (){
+        	var contentBoxSplitePage=document.getElementById("contentBoxSplitePage");
+        	var aLink=contentBoxSplitePage.getElementsByTagName("a");
+        	var pageProgress=new PageProgress();
+        	for(var i=0;i<aLink.length;i++){
+        		aLink[i].index=i;
+        		aLink[i].onclick=function(ev){
+        			//alert(this.index);
+        			switch(this.index){
+        			case 0://代表的是上一页
+        				pageProgress.progressUpPage();
+        				break;
+        			case 1://代表的是回到主界面
+        				pageProgress.progressMainPage();
+        				break;
+        			case 2://代表的是回到尾页
+        				pageProgress.progressEndPage();
+        				break;
+        			case 3://代表的是会下一页
+        				pageProgress.progressDownPage();
+        				break;
+        			
+        			}
+        		}
+        	}
+        	
+        })();
+        
+        
+        
+   }
+    
+    </script>
+</head>
+<body>
+<div data-v-07578fd8="" class="header-wrap clearfix">
+    <img data-v-07578fd8="" src="http://localhost:8080/Blog/html/img/logo.9bde9cc.png" alt="段亮个人博客" class="logo fl">
+    <div data-v-07578fd8="" class="nav-wrap">
+        <ul data-v-07578fd8="" class="nav-list">
+            <li data-v-07578fd8="" class="nav-item "><a href="index.html">首页</a></li>
+            <li data-v-07578fd8="" class="nav-item"><a href="videoPage.html" class="linkPage active">免费视频教程</a></li>
+            <li data-v-07578fd8="" class="nav-item"><a href="webMode.html" class="linkPage">网站模板</a></li>
+            <li data-v-07578fd8="" class="nav-item"><a href="studyPage.html" class="linkPage">学无止境</a></li>
+            <li data-v-07578fd8="" class="nav-item"><a href="personalNotePage.html" class="linkPage">个人日记</a></li>
+            <li data-v-07578fd8="" class="nav-item"><a href="learnMe.html" class="linkPage">关于方志月</a></li>
+            <li data-v-07578fd8="" class="nav-item"><a href="leaveMessage.html" class="linkPage">留言板</a></li>
+        </ul>
+        <div data-v-07578fd8="" class="login-box" id="login-box">
+            <a href="login.html"><span data-v-07578fd8="" class="item-text">登录</span></a>/
+            <a href="login.html"><span data-v-07578fd8="" class="item-text">注册</span></a>
+
+        </div>
+    </div>
+</div>
+
+<!-- 下面开始处理主体的内容 -->
+<!-- 定义容器颜色 -->
+<div class="wrapper">
+    <!-- 主体开发 -->
+	<div class="container">
+	     <!-- 网页的指示器 -->
+		<div class="indictor">
+			<img alt="指数器" class="indictorImg" src="http://localhost:8080/Blog/html/img/position.svg">
+			<span>首页</span>&gt;
+			<span>视频教程</span>
+		</div>
+		<!-- 实例内容 -->
+		<div class="contentBox">
+			<!-- 头部介绍 -->
+			<div class="contentHead">
+				<div class="contentHeadClassBox">
+					<span>分类:</span>
+					<ul class="contentHeadClassBoxUl" id="contentHeadClassBox">
+						<li class="contentHeadClassBoxUl_li"><a href="#"><span class="currentSelect" onclick="changeSelectColor(this)">全部</span></a></li>
+					</ul>
+				</div>
+				<!-- 一些介绍信息 -->
+				<div class="contentHeadDestribute">
+					<div class="contentHeadDestributeLeft">
+						<p>想必有很多朋友：想自己做个网站或者博客。困惑的是：“不知道从哪里着手会比较好？”其实，不管是自学也好，还是参加培训班。我们首先得明白做一个网站的流程是什么？而不是别人说什么，我们就去学什么。</p>
+						<p>盲目的学习，导致的结果就是：浪费了不该浪费的时间和精力，同时也浪费了金钱。</p>
+						<p>免费试听以下教程，让你明白：原来做一个网站是如此的简单！ </p>
+					</div>
+					<div class="contentHeadDestributeRight"><img class="contentHeadDestributeRight_Img" src="http://localhost:8080/Blog/html/img/video-info-bg.jpg"/></div>
+				</div>
+			</div>
+			<!-- 视频播放的列表 -->
+			<div class="contentBoxVideoBox" id="contentBoxVideoBox">
+				<div class="contentBoxVideoBox_item">
+					<a href="#">
+						<!-- 视频列表图片 -->
+						<div class="contentBoxVideoBox_item_imgBox"><img class="contentBoxVideoBox_item_img" src="http://localhost:8080/Blog/html/img/videoListBg.jpg"/></div>
+						<!-- 视频的标题 -->
+						<p class="contentBoxVideoBox_item_title">第一节：网页入门 - 网页制作视频基础教程</p>
+						<!-- 视频的一些描述 -->
+						<p class="contentBoxVideoBox_itemDestribute">
+						本节课主要讲解网页入门的一些基本知识。网页分为：头部和身体，那你有知
+						</p>
+					</a>
+				</div>
+			</div>
+			<!-- 数据分页的显示器 -->
+			<div class="contentBoxSplitePage" id="contentBoxSplitePage">
+				<a href="#" title="上一页"><span><img src="../img/upPage.svg"/></span></a>
+				<a href="#" title="回到主页"><span><img src="../img/mainPage.svg"/></span></a>
+				<a href="#" title="回到尾页"><span><img src="../img/endPage.svg"/></span></a>
+				<a href="#" title="下一页"><span><img src="../img/downPage.svg"/></span></a>
+			</div>
+		</div>
+	</div>
+
+	<!-- 网页的底部数据 -->
+	<div class="copyRightBottomBox">
+  		<p>Design by：段亮 备案号：湘ICP备14011335号-2</p>
+	</div>
+</div>
+
+
+
+
+
+</body>
+</html>

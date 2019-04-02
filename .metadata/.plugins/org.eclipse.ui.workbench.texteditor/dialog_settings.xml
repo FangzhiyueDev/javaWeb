@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
+		<item value="false" key="isRegEx"/>
+		<item value="sendAjax" key="selection"/>
+		<item value="false" key="casesensitive"/>
+		<item value="false" key="incremental"/>
+		<item value="true" key="wrap"/>
+		<item value="false" key="wholeword"/>
+		<list key="findhistory">
+			<item value="sendAjax"/>
+			<item value="send"/>
+			<item value="cancellation"/>
+			<item value="singer.html"/>
+			<item value="playMusic"/>
+			<item value="alert"/>
+			<item value="init"/>
+			<item value="userLoginInfo"/>
+			<item value="user"/>
+			<item value="UserServlet"/>
+			<item value="UserServlet?status=1"/>
+			<item value="parseCanellationData"/>
+			<item value="userinf"/>
+			<item value="div.box"/>
+			<item value="ul.list"/>
+		</list>
+		<list key="replacehistory">
+		</list>
+	</section>
+	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
+		<item value="338" key="DIALOG_WIDTH"/>
+		<item value="1|Ubuntu|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
+		<item value="223" key="DIALOG_HEIGHT"/>
+		<item value="359" key="DIALOG_X_ORIGIN"/>
+		<item value="329" key="DIALOG_Y_ORIGIN"/>
+	</section>
+</section>

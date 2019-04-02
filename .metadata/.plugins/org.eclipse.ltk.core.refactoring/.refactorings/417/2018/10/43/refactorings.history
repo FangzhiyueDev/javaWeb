@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy package &apos;com.lzw&apos; to &apos;Toolset/src/com.fang.toolset&apos;&#x0A;- Original project: &apos;417&apos;&#x0A;- Destination element: &apos;Toolset/src/com.fang.toolset&apos;&#x0A;- Original element: &apos;417/src/com.lzw&apos;" description="Copy package" destination="=Toolset/src&lt;com.fang.toolset" element1="/src&lt;com.lzw" flags="589830" fragments="1" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyPackages" stamp="1540431817018" version="1.0"/>
+</session>

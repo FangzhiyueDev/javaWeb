@@ -1,0 +1,12 @@
+<classpath>
+  <container id="Demo2!org.eclipse.jst.j2ee.internal.web.container">
+    <entry id="/media/fang/项目代码/fangDev/eclipseWork3/Demo2/WebContent/WEB-INF/lib/spring-webmvc-4.3.0.RELEASE.jar">
+      <source-attachment-path>/media/fang/项目代码/stydyFile/常用安装包/SpringMVC的jar以及doc/spring-framework-4.3.0.RELEASE-dist.zip</source-attachment-path>
+    </entry>
+  </container>
+  <container id="Rice!org.eclipse.jst.j2ee.internal.web.container">
+    <entry id="/media/fang/项目代码/fangDev/eclipseWork3/Rice/WebContent/WEB-INF/lib/pack.jar">
+      <source-attachment-path>/home/fang/Desktop/riceFragment.zip</source-attachment-path>
+    </entry>
+  </container>
+</classpath>

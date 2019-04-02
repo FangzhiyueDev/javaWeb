@@ -1,0 +1,484 @@
+																																																																																																																										<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../css/indexTitle.css" type="text/css" rel="stylesheet">
+          <script>
+    function ParseResponse() {
+    	  /*
+        下面的代码是用来检测用户是否已经登录
+        */
+        
+        /**
+         * 用户状态的查询
+         * @param ev
+         */
+        this.userLoginInfo = function (jsonResponse) {
+           //alert(jsonResponse)
+            var userStatus = JSON.parse(jsonResponse);
+            var responseResult=userStatus.responseResult;
+            if (responseResult.errorCode == 1) {
+                var userInfo = userStatus.user;
+                var urlAddress="http://localhost:8080/Blog/UserServlet?cancellation=true";
+                //代表已经登录了
+                var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
+                    "            <a href=\"\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
+                var loginBox = document.getElementById("login-box");
+                loginBox.innerHTML = innerhtml;
+
+                var cancellationButton=document.getElementsByClassName("cancellationButton")[0];
+                cancellationButton.onclick=function(ev){
+                	var request = new Request();
+                    var parseData = new ParseResponse();		
+                    //请求下线地址返回数据
+                    request.requestGet(urlAddress, parseData.parseCanellationData);
+                }
+            }
+        }
+            
+            this.parseCanellationData=function(jsonResponse){
+            	//alert(jsonResponse);
+            } 
+            
+            
+            /**
+            	获得作者的相关信息
+            */
+            this.authorInfo=function(jsonResponse){
+            	//alert(jsonResponse);
+            	var jsonData=JSON.parse(jsonResponse);
+            	jsonData=jsonData[0];
+            	var name=jsonData.name;
+            	var qqNumber=jsonData.qqNumber;
+                var occupation=jsonData.occupation;
+                var hobby=jsonData.hobby;
+                var likeSinger=jsonData.likeSinger;
+                var likeMusic=jsonData.likeMusic;
+                var motto=jsonData.motto;
+            	var innerHtml="  <p>姓名:"+name+"</p>\n" +
+                "                      <p>QQ:"+qqNumber+"</p>\n" +
+                "                      <p>职业:"+occupation+"</p>\n" +
+                "                      <p>爱好:"+hobby+"</p>\n" +
+                "                      <p>喜欢的歌手:"+likeSinger+"</p>\n" +
+                "                      <p>喜欢的音乐:"+likeMusic+"</p>\n" +
+                "                      <p>座右铭:"+motto+"</p>";
+                var infoBox=document.getElementById("personalInfo");
+                infoBox.innerHTML+=innerHtml;
+            	
+            }
+            
+    }
+    </script>
+    <script>
+    function Request() {
+        /**
+         * 创建一个ajax对象
+         */
+        this.createAJAX = function () {
+            var xhr;
+            if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+                xhr = new XMLHttpRequest();
+            }
+            else {// code for IE6, IE5
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            return xhr;
+        }
+
+        /**
+         * @param url 请求的资源的地址
+         * @param parseJsonData ajax响应数据产生的回调函数
+         */
+        this.requestGet = function (url, parseJsonData) {
+            var xhr = this.createAJAX();
+            //alert(xhr)
+            xhr.open("GET", url, true);
+            xhr.send();
+            xhr.onreadystatechange = function (ev) {
+                // alert(xhr.status)
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        var response = xhr.responseText;
+                        parseJsonData(response);
+                    }
+                }
+            }
+        }
+
+        /**
+         * @param url 请求的url
+         * @param parseJsonData 响应的回调函数
+         * @param requestparam 请求的参数
+         */
+        this.requestPost = function (url, parseJsonData, requestparam) {
+            var xhr = this.createAJAX();
+            xhr.open("POST", url, true);
+            xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhr.send(requestparam);
+            //alert(requestparam)
+            xhr.onreadystatechange = function (ev) {
+                // alert(xhr.status)
+                if (xhr.readyState == 4) {
+                    if (xhr.status == 200) {
+                        var response = xhr.responseText;
+                        parseJsonData(response);
+                    }
+                }
+            }
+        }
+
+    }
+    </script>
+    <script type="text/javascript">
+    window.onload=function(){
+    /**
+    检验用户是否已经登录
+    */
+    (function(){
+    	var requestUserStatus="http://localhost:8080/Blog/UserServlet?status=1";
+        var req = new Request();
+        var parseRequest = new ParseResponse();
+        req.requestGet(requestUserStatus, parseRequest.userLoginInfo);
+    })();
+    
+    /**
+    获得作者的详细信息
+    */
+    (function(){
+    	var requestAuthorInfo="http://localhost:8080/Blog/ManagerServlet?opration=detail";
+        var req = new Request();
+        var parseRequest = new ParseResponse();
+        req.requestGet(requestAuthorInfo, parseRequest.authorInfo);
+    })();
+    
+    
+    }
+    </script>
+    <style>
+    	   img.img-item-user {
+            position: relative;
+            top: 10px;
+            margin-right: 10px;
+            border-radius: 15px;
+        }
+        
+        
+        	  /*当前页面的版权信息*/
+        div.copyRightBottomBox{
+        	background-color: #fff;
+        	height: 50px;
+        	font-size:12px;
+        	color:#504d50;
+        	line-height:50px;
+        	text-align: center;
+        }
+        
+        
+         div.wrapper {
+            margin: 0 auto;
+            overflow: hidden;
+            background-color: #ecedeb;
+        }
+   
+       div.wrapper div.container{
+         width: 1200px;
+         margin-top:20px;
+         margin: 0 auto;
+       }
+        
+         /**
+       处理指示器部分
+       */
+       div.wrapper div.container div.indictor{
+        overflow: hidden;
+        line-height: 25px;
+        margin: 20px 0px;
+       }
+       
+       div.wrapper div.container div.indictor img.indictorImg{
+       		position: relative;
+       		top: 3px;
+       }
+       
+       /**
+       处理左边的主体部分的显示
+       */
+        div.wrapper div.container div.containerCenter{
+        	overflow: hidden;
+        }
+        
+        div.wrapper div.container div.containerCenter div.leftContainer{
+        	width: 800px;
+        	padding: 10px;
+        	overflow: hidden;
+        	display: inline-block;
+        	background-color: #fff;
+        }
+        
+        div.wrapper div.container div.containerCenter div.leftContainerImgBox{
+        	float:left;
+        	width: 300px;
+        	height: 404px;
+        }
+        
+         div.wrapper div.container div.containerCenter div.leftContainerRightDes{
+         	margin:20px 0px 0px 20px;
+         	float:left;
+         	width:450px;
+         	margin-bottom: 100px;
+         	
+         }
+         
+         div.wrapper div.container div.containerCenter div.leftContainerRightDes li{
+         	padding-left: 2em;
+         	margin:10px 0px;
+         	line-height: 30px;
+         }
+        
+        div.wrapper div.container div.containerCenter div.leftContainerRightDes p.shizhizuoDes{
+        	line-height: 30px;
+        	margin:10px 0px;
+        	text-indent: 2em;
+        }
+        
+        div.wrapper div.container div.containerCenter div.bottomInfo{
+        	padding:20px 20px 20px 10px;
+        	clear: both;
+        	
+        }
+        
+        p,.pfontStyle{
+        	color:#666;
+        	line-height:30px;
+        	text-indent: 2em;
+        }
+        .headFontStyle{
+        	color:#73706d;
+        }
+        
+              /**
+        搜索的处理
+         */
+         
+         div.rightPlayBox{
+         	float: right;
+         	overflow: hidden;
+         	padding: 0px 10px;
+         }
+         
+        div.rightPlayBox div.searchArea {
+            height: 60px;
+            overflow: hidden;
+            background-color: #ffffff;
+            
+            padding: 0px 10px ;
+        }
+
+        div.rightPlayBox div.searchArea div.searchBox {
+            height: 35px;
+            border: 1px solid #a1a1a1;
+            position: relative;
+            width: 300px;
+            top: 12px;
+            padding-left: 10px;
+            border-radius: 5px;
+
+        }
+
+        div.rightPlayBox div.searchArea div.searchBox img.searchIcon {
+            position: relative;
+            top: 9px;
+        }
+
+        .bgcolor_1 {
+            border: 1px solid #0C77CF;
+            background-color: #0C77CF;
+        }
+
+        .bgcolor_2 {
+            border: 1px solid #ff5ecf;
+            background-color: #ff5ecf;
+        }
+
+        .bgcolor_3 {
+            border: 1px solid #00cf0c;
+            background-color: #00cf0c;
+        }
+
+        .bgcolor_4 {
+            border: 1px solid #cfb700;
+            background-color: #cfb700;
+        }
+
+        .fontColor {
+            color: #ffffff;
+        }
+
+        div.rightPlayBox div.side-nav {
+            overflow: hidden;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ffffff;
+        }
+
+        div.rightPlayBox div.side-nav li.nav-1 {
+            width: 40%;
+            height: 40px;
+            text-align: center;
+            float: left;
+            line-height: 40px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        div.rightPlayBox div.side-nav li.nav-2 {
+            width: 40%;
+            height: 40px;
+            float: right;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        
+        
+        /**
+        个人信息的介绍的相关数据
+        */
+        
+        div.personalInfo{
+          background-color: #fff;
+          margin: 20px 0px;
+          padding-bottom: 20px;
+        }
+        
+        div.learnBlog {
+            border-left: 2px solid #89344f;
+            padding-left: 10px;
+            font-size: 1pc;
+            font-family: "Microsoft YaHei";
+            margin-bottom: 10px;
+        }
+        
+        
+    </style>
+    
+</head>
+<body>
+
+<div data-v-07578fd8="" class="header-wrap clearfix">
+    <img data-v-07578fd8="" src="../img/logo.9bde9cc.png" alt="段亮个人博客" class="logo fl">
+    <div data-v-07578fd8="" class="nav-wrap">
+        <ul data-v-07578fd8="" class="nav-list">
+            <li data-v-07578fd8="" class="nav-item "><a href="index.html" >首页</a></li>
+            <li data-v-07578fd8="" class="nav-item"><a href="videoPage.html" class="linkPage">免费视频教程</a></li>
+            <li data-v-07578fd8="" class="nav-item"><a href="webMode.html" class="linkPage">网站模板</a></li>
+            <li data-v-07578fd8="" class="nav-item"><a href="studyPage.html" class="linkPage">学无止境</a></li>
+            <li data-v-07578fd8="" class="nav-item"><a href="personalNotePage.html" class="linkPage">个人日记</a></li>
+            <li data-v-07578fd8="" class="nav-item"><a href="learnMe.html" class="linkPage active">关于方志月</a></li>
+            <li data-v-07578fd8="" class="nav-item"><a href="leaveMessage.html" class="linkPage">留言板</a></li>
+        </ul>
+        <div data-v-07578fd8="" class="login-box" id="login-box">
+            <a href="login.html"><span data-v-07578fd8="" class="item-text">登录</span></a>/
+            <a href="login.html"><span data-v-07578fd8="" class="item-text">注册</span></a>
+
+        </div>
+    </div>
+</div>
+
+<!-- 网页的主体部分 -->
+<div class="wrapper">
+	<div class="container">
+			<!-- 头部的指示器 -->
+			<div class="indictor">
+				<img alt="指数器" class="indictorImg" src="http://localhost:8080/Blog/html/img/position.svg">
+				<span>首页</span>&gt;
+				<span>个人日记</span>
+		    </div>
+		    
+		    <!-- 网页的主体显示 -->
+		    <div class="containerCenter">
+		    	<div class="leftContainer">
+		    		<!-- 左边自己的图片 -->
+		    		<div class="leftContainerImgBox">
+		    			<img src="../img/user.jpg"/>
+		    		</div>
+		    		<!-- 右边自己的个人信息的简介 -->
+		    		<div class="leftContainerRightDes pfontStyle">
+		    			<h3 class="headFontStyle">一.关于方志月</h3>
+		    			<ol>
+		    				<li>1.一个对于android开发和java后端技术稍有研究的，90后菜鸟大学生。</li>
+		    				<li>2.方志月博客的创始人</li>
+		    			</ol>
+		    			<h3 class="headFontStyle">二.关于狮子座</h3>
+		    			<p class="shizhizuoDes">
+		    			我属于狮子座:很多时候觉得自己对待任何事都很执着，一旦定了目标，就会不达目标不罢休，永不退缩！ 面对技术，我会拿出自己的精力去追求。 
+		    			</p>
+		    		</div>
+		    	
+		    		<!-- 下边是一些总结 -->
+		    		<div class="bottomInfo">
+		    			<p>在我认为：不管学习什么东西，一定要有属于自己的“学习方法”和善于“对事物的总结”。</p>
+		    			<p>俗话说的好：“方向不对，努力白费！”很多人都是盲目的去学习，导致花了大量的时间，在学习一些没有用处的东西，到头来什么都没学会，因此会打击自己的学习欲望，也会让自己处于迷茫当中...一个优秀的传道授业者“不单单传授的是知识，更多传授的是思维和方法”。---授人以鱼不如授人以渔 </p>
+		    			<p>其实，人的一生中都是在不断的学习，不管是技术也好，做人也罢！我觉得都应该以一颗“谦卑的心态来学习，秉持利他之心来帮助他人。” </p>
+		   				<p>人就得学会感恩，滴水之恩应当涌泉相报。感谢那些曾经帮助过我的人，因为有你们我才会变得如此的优秀。</p>
+		   				<p align="right">方志月</p>
+		   			</div>
+		    	</div>
+		    	<!-- 右边的导航栏 -->
+		    	<!-- 右边的导航栏的实现 -->
+			 	<div class="rightPlayBox">
+                <div class="searchArea">
+                    <div class="searchBox">
+                        <input type="text" maxlength="40" size="24" value="全站搜索" class="inputSearch">
+                        <img src="http://localhost:8080/Blog/html/img/search.svg" class="searchIcon" id="searchButton"/>
+                        <script>
+                        </script>
+                    </div>
+                </div>
+
+                <div class="classMenu">
+                    <!--常见模块-->
+                    <div data-v-d0a26284="" class="side-nav">
+                        <ul data-v-d0a26284="" class="clearfix">
+                            <li data-v-d0a26284="" class="nav-1 bgcolor_1"><a data-v-d0a26284="" href="learnMe.html"
+                                                                              class="fontColor">关于我</a>
+                            </li>
+                            <li data-v-d0a26284="" class="nav-2 bgcolor_2"><a data-v-d0a26284="" href="videoPage.html"
+                                                                              class="fontColor">视频教程</a>
+                            </li>
+                            <li data-v-d0a26284="" class="nav-1 bgcolor_3"><a data-v-d0a26284=""
+                                                                              href="#"
+                                                                              class="fontColor">SEO优化</a></li>
+                            <li data-v-d0a26284="" class="nav-2 bgcolor_4">
+                                <!--下面的链接部分需要进行检测，我们需要判断用户是否在线，如果在线，跳转到留言界面，反之跳转到登录界面-->
+                                <a data-v-d0a26284=""
+                                   href="leaveMessage.html"
+                                   class="fontColor">留言版</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- 下面是个人信息的介绍 -->
+                <div class="personalInfo" id="personalInfo">
+                	  <div class="learnBlog">个人简介</div>
+                </div>
+			</div>
+		 </div> 
+	</div>
+</div>
+
+
+
+<!-- 网页的底部数据 -->
+	<div class="copyRightBottomBox">
+  		<p>Design by：段亮 备案号：湘ICP备14011335号-2</p>
+	</div>
+
+</body>
+</html>

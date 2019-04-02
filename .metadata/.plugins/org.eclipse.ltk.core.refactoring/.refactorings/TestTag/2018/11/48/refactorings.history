@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;ModeBean.java&apos; to &apos;Blog/src/com.fang.model&apos;&#x0A;- Original project: &apos;TestTag&apos;&#x0A;- Destination element: &apos;Blog/src/com.fang.model&apos;&#x0A;- Original element: &apos;com.fang.demo.ModeBean.java&apos;" description="Copy compilation unit" destination="=Blog/src&lt;com.fang.model" element1="/src&lt;com.fang.demo{ModeBean.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1543160037298" units="1" version="1.0"/>
+</session>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Ajax/Ajax.iml" filepath="$PROJECT_DIR$/Ajax/Ajax.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Blog/Blog.iml" filepath="$PROJECT_DIR$/Blog/Blog.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FilterRice/FilterRice.iml" filepath="$PROJECT_DIR$/FilterRice/FilterRice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/GF/GF.iml" filepath="$PROJECT_DIR$/GF/GF.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Rice/Rice.iml" filepath="$PROJECT_DIR$/Rice/Rice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Servers/Servers.iml" filepath="$PROJECT_DIR$/Servers/Servers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/music/music.iml" filepath="$PROJECT_DIR$/music/music.iml" />
+      <module fileurl="file://$PROJECT_DIR$/neteasyMusic/neteasyMusic.iml" filepath="$PROJECT_DIR$/neteasyMusic/neteasyMusic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/riceFragment/riceFragment.iml" filepath="$PROJECT_DIR$/riceFragment/riceFragment.iml" />
+    </modules>
+  </component>
+</project>
