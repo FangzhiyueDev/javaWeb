@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/JDBCDemo">
+<!--
+    - name：表示以后要查找的名称。通过此名称可以找到DataSource，此名称任意更换，但是程序中最终要查找的就是此名称，为了不与其他的名称混淆，所以使用jdbc/oracle，现在配置的是一个jdbc的关于oracle的命名服务。
+    - auth：由容器进行授权及管理，指的用户名和密码是否可以在容器上生效
+    - type：此名称所代表的类型，现在为javax.sql.DataSource
+    - maxActive：表示一个数据库在此服务器上所能打开的最大连接数 Tomcat8.0及以上版本使用maxTotal
+    - maxIdle：表示一个数据库在此服务器上维持的最大空闲连接
+    - maxWait：最大等待时间。10000毫秒 设置为-1表示无限等待 Tomcat8.0及以上版本使用DBCP2 部署这些服务器需要使用maxWaitMillis
+    - username：数据库连接的用户名
+    - password：数据库连接的密码
+    - driverClassName：数据库连接的驱动程序
+    - url：数据库连接的地址
+    - initialSize：初始化连接数
+-->
+    <Resource name="jndi/mysql"
+              auth="Container"
+              type="javax.sql.DataSource"
+              driverClassName="com.mysql.jdbc.Driver"
+              url="jdbc:mysql://localhost:3306/Blog?useUnicode=true&amp;characterEncoding=UTF-8"
+              username="root"
+              password="123"
+              maxTotal="100"
+              maxIdle="5"
+             maxWaitMillis="10000"
+              initialSize="10"/>
+</Context>

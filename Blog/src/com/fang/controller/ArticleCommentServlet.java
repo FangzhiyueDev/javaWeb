@@ -55,7 +55,6 @@ public class ArticleCommentServlet extends HttpServlet {
 			pw.print(paramError);
 			return;
 		}else {
-
 			//请求
 			if(size!=null) {
 				progressArticleComment(resp,req,gson,time,size);

@@ -33,8 +33,7 @@ import com.fang.rice.tool.TableNameMappingOpration;
 @WebServlet("/ProductSalePageAction")
 public class ProductSalePageAction extends HttpServlet {
 	
-	
-	
+
 	@Override
 	public void init() {
 	
