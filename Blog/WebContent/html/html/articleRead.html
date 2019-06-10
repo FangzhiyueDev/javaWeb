@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="../css/indexTitle.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="../js/param.js"></script>
     <script>
         /**
          * 全局的文章评论列表
@@ -184,14 +185,14 @@
                 this.flushCommentList = function () {
                     var request = new Request();
                     var parse = new ParseResponse();
-                    var newCommentListAddress = "http://localhost:8080/Blog/ArticleCommentServlet?articlePublishTime=201811141808&size=6";
+                    var newCommentListAddress = serverRoot+"/ArticleCommentServlet?articlePublishTime=201811141808&size=6";
                     request.requestGet(newCommentListAddress, parse.newCommentList)
                 }
 
                 this.parseUserComment = function (jsonResponse) {
                     //alert(jsonResponse)
                     var responseData = JSON.parse(jsonResponse);
-                    var loginurl = "http://localhost:8080/Blog/html/html/login.html";
+                    var loginurl = serverRoot+"/html/html/login.html";
                     switch (responseData.errorCode) {
                         case 1:
                             break;
@@ -287,7 +288,7 @@
             (function () {
                 var request = new Request();
                 var parse = new ParseResponse();
-                var newCommentListAddress = "http://localhost:8080/Blog/ArticleCommentServlet?articlePublishTime=201811141808&size=6";
+                var newCommentListAddress = serverRoot+"/ArticleCommentServlet?articlePublishTime=201811141808&size=6";
                 request.requestGet(newCommentListAddress, parse.newCommentList)
             })();
 
@@ -299,7 +300,7 @@
                 nowCommentButton.onclick = function (ev) {
                     var request = new Request();
                     var parse = new ParseResponse();
-                    var newCommentListAddress = "http://localhost:8080/Blog/ArticleCommentServlet?articlePublishTime=201811141808&size=6";
+                    var newCommentListAddress = serverRoot+"/ArticleCommentServlet?articlePublishTime=201811141808&size=6";
                     request.requestGet(newCommentListAddress, parse.flushCommentList)
                 }
             })();
@@ -313,7 +314,7 @@
                 commentSubmit.onclick = function (ev) {
                     var request = new Request();
                     var parseRequest = new ParseResponse();
-                    var requestUrl = "http://localhost:8080/Blog/ArticleCommentServlet";
+                    var requestUrl = serverRoot+"/ArticleCommentServlet";
                     var requestParam = "articlePublishTime=" + currentArticlePublishTime
                         + "&content=" + userComment.value;
                     //alert(requestParam)
@@ -341,7 +342,7 @@
             (function () {
                 var request = new Request();
                 var parse = new ParseResponse();
-                var url = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + currentArticlePublishTime
+                var url = serverRoot+"/ArticleServlet?articlePublishTime=" + currentArticlePublishTime
                     + "&size=1";
                 request.requestGet(url, parse.getPageArticleInfo);
 
@@ -354,7 +355,7 @@
             (function () {
                 var request = new Request();
                 var parse = new ParseResponse();
-                var url = "http://localhost:8080/Blog/ArticleServlet?current=10"
+                var url = serverRoot+"/ArticleServlet?current=10"
                 request.requestGet(url, parse.nowArticleInfo);
             })();
 
@@ -673,7 +674,7 @@
 </head>
 <body>
 <div data-v-07578fd8="" class="header-wrap clearfix">
-    <img data-v-07578fd8="" src="http://localhost:8080/Blog/jsp/images/logo.9bde9cc.png" alt="段亮个人博客" class="logo fl">
+       <span style="display: inline-block;height: 60px;font-size: 22px;line-height: 60px;color: #111;">小芳芳的博客</span>
     <div data-v-07578fd8="" class="nav-wrap">
         <ul data-v-07578fd8="" class="nav-list">
             <li data-v-07578fd8="" class="nav-item "><a href="index.html">首页</a></li>
@@ -710,7 +711,7 @@
             <!--下面文章的显示-->
             <div>
                 <!--文章的信息显示-->
-                <iframe src="http://localhost:8080/Blog/article/1_常用标记.html" id="iframe" width="900px" scrolling="no"></iframe>
+                <iframe  id="iframe" width="900px" scrolling="no"></iframe>
             </div>
             <div class="articleBottom">
                 <!--文章出处-->
@@ -726,13 +727,13 @@
                     <div class="leftWeChat">
                         <p>微信扫一扫</p>
                         <div class="erweima">
-                            <img src="http://localhost:8080/Blog/html/img/alipay-ds.jpg" height="160px"/>
+                            <img src="img/alipay-ds.jpg" height="160px"/>
                         </div>
                     </div>
                     <div class="aliPay">
                         <p>支付宝扫一扫</p>
                         <div class="erweima">
-                            <img src="http://localhost:8080/Blog/html/img/weChat-ds.jpg" height="160px"/>
+                            <img src="img/weChat-ds.jpg" height="160px"/>
                         </div>
                     </div>
                 </div>
@@ -747,9 +748,9 @@
                 <div class="articleCommentBox">
                     <!--用户留言-->
                     <div class="commentArea">
-                        <img src="http://localhost:8080/Blog/jsp/images/head.jpeg" class="userHeader" align="left" hspace="10px">
+                        <img src="../jsp/images/head.jpeg" class="userHeader" align="left" hspace="10px">
                         <form action="#" method="post">
-                            <textarea name="userComment" value="有什么想对方志月这小子说的" class="videoComment"></textarea>
+                            <textarea name="userComment" placeholder="有什么想对方志月这小子说的" class="videoComment"></textarea>
                             <input type="button" value="点击评论" class="commentSubmit" id="commentSubmit">
                         </form>
                     </div>
@@ -781,7 +782,7 @@
             <div class="searchArea">
                 <div class="searchBox">
                     <input type="text" maxlength="40" size="24" value="全站搜索" class="inputSearch">
-                    <img src="http://localhost:8080/Blog/jsp/images/search.svg" class="searchIcon" id="searchButton"/>
+                    <img src="../jsp/images/search.svg" class="searchIcon" id="searchButton"/>
                 </div>
             </div>
             <div>

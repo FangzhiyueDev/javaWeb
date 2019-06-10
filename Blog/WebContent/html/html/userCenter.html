@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="../css/indexTitle.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="../js/param.js"></script>
+    <style type="text/css">
+    
+    body{
+    background: #fff;
+    }
+    
+    </style>
     <script>
 
         /**
@@ -27,10 +35,10 @@
                 var responseResult = userStatus.responseResult;
                 if (responseResult.errorCode == 1) {
                     userInfo = userStatus.user;
-                    var urlAddress = "http://localhost:8080/Blog/UserServlet?cancellation=true";
+                    var urlAddress = serverRoot+"/UserServlet?cancellation=true";
                     //代表已经登录了
-                    var innerhtml = "            <a href=\"#\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
-                        "            <a href=\"\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
+                    var innerhtml = "            <a href=\"#\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + serverRoot+userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
+                        "            <a href=\"#\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
                     var loginBox = document.getElementById("login-box");
                     loginBox.innerHTML = innerhtml;
 
@@ -46,7 +54,7 @@
                     parse.progressUserInfo(userInfo);
 
                 }else if(responseResult.errorCode==4){//代表的是没有登录，跳转到登录界面
-                	location.href="http://localhost:8080/Blog/html/html/login.html";
+                	location.href=serverRoot+"/html/html/login.html";
                 }
             }
 
@@ -98,13 +106,14 @@
                     viewArray[i].value=info[i];
                 }
                 var userimg=document.getElementById("userImg");
-                userimg.src=picture;
+                userimg.src=serverRoot+picture;
 
             }
 
 
             this.parseCanellationData = function (jsonResponse) {
                 //alert(jsonResponse);
+                window.location.reload();
             }
 
 
@@ -181,7 +190,7 @@
              检验用户是否已经登录
              */
             (function () {
-                var requestUserStatus = "http://localhost:8080/Blog/UserServlet?status=1";
+                var requestUserStatus = serverRoot+"/UserServlet?status=1";
                 var req = new Request();
                 var parseRequest = new ParseResponse();
                 req.requestGet(requestUserStatus, parseRequest.userLoginInfo);
@@ -213,7 +222,7 @@
                     var likeSinger = document.getElementsByName("likeSinger")[0];
                     var likeMusic = document.getElementsByName("likeMusic")[0];
                     var motto = document.getElementsByName("motto")[0];
-                    var url = "http://localhost:8080/Blog/UserServlet";
+                    var url = serverRoot+"/UserServlet";
                     var req = new Request();
                     var param = "name=" + name.value
                         + "&qq=" + qq.value
@@ -386,7 +395,7 @@
 <body>
 
 <div data-v-07578fd8="" class="header-wrap clearfix">
-    <img data-v-07578fd8="" src="../img/logo.9bde9cc.png" alt="段亮个人博客" class="logo fl">
+      <span style="display: inline-block;height: 60px;font-size: 22px;line-height: 60px;color: #111;">小芳芳的博客</span>
     <div data-v-07578fd8="" class="nav-wrap">
         <ul data-v-07578fd8="" class="nav-list">
             <li data-v-07578fd8="" class="nav-item "><a href="index.html">首页</a></li>
@@ -410,7 +419,7 @@
     <div class="container">
         <!-- 网页的指示器 -->
         <div class="indictor">
-            <img alt="指数器" class="indictorImg" src="http://localhost:8080/Blog/html/img/position.svg">
+            <img alt="指数器" class="indictorImg" src="../img/position.svg">
             <span>首页</span>&gt;
             <span>个人中心</span>
         </div>

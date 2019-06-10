@@ -8,44 +8,45 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 /**
  * 数据操控层，使用驱动对mysql数据的调用
+ * 
  * @author fang
  *
  */
 public class DbHelper {
-	
-	public static final String DbName="Blog";
-	
+
+	public static final String DbName = "Blog";
+
 	public static void main(String[] argc) {
-	
-	
+
+		initDB();
 	}
 
-	private  static final  String URL="jdbc:mysql://localhost:3306/Blog?useUnicode=true&characterEncoding=UTF-8&user=root&password=123"; 
+	private static final String URL = "jdbc:mysql://localhost:3306/Blog?useUnicode=true&characterEncoding=UTF-8&user=root&password=123";
 
 	public static Connection initDB() {
-		Connection connection=null;
+		Connection connection = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			connection=DriverManager.getConnection(URL);
+			connection = DriverManager.getConnection(URL);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return connection;
-		
+
 	}
-	
+
 	/**
 	 * 关闭数据库的链接
+	 * 
 	 * @param connection
 	 */
-	public static void closeDb(Connection connection,PreparedStatement ps,ResultSet rs) {
+	public static void closeDb(Connection connection, PreparedStatement ps, ResultSet rs) {
 		try {
-			if(rs!=null) {
-			rs.close();
+			if (rs != null) {
+				rs.close();
 			}
 			connection.close();
 			ps.close();
@@ -54,12 +55,13 @@ public class DbHelper {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 关闭数据库的链接
+	 * 
 	 * @param connection
 	 */
-	public static void closeDb(Connection connection,Statement statement,ResultSet rs) {
+	public static void closeDb(Connection connection, Statement statement, ResultSet rs) {
 		try {
 			rs.close();
 			connection.close();
@@ -69,10 +71,5 @@ public class DbHelper {
 			e.printStackTrace();
 		}
 	}
-	
 
-
-	
-	
-	
 }

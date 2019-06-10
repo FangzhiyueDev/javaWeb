@@ -8,12 +8,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="../css/indexTitle.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="../js/param.js"></script>
     <style>
    /**
    处理网页主体
    */
-        .body {
-           
+        body {
+           background: #fff;
         }
 
         div.wrapper {
@@ -247,11 +248,11 @@
 						var videoName=articleObj.videoName;
 						var videoAddress=articleObj.videoAddress;
 				        var videoDestribute=articleObj.videoDestribute;
-				        var serverUrl = "http://localhost:8080/Blog/VideoServlet?videoAddress=" + videoAddress;
+				        var serverUrl = serverRoot+"/VideoServlet?videoAddress=" + videoAddress;
 				        var innerHtml = "<div class=\"contentBoxVideoBox_item\">\n" +
 				            "     <a href=\"" + serverUrl + "\">\n" +
 				            "      <!-- 视频列表图片 -->\n" +
-				            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"http://localhost:8080/Blog/html/img/videoListBg.jpg\"/></div>\n" +
+				            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"../img/videoListBg.jpg\"/></div>\n" +
 				            "      <!-- 视频的标题 -->\n" +
 				            "      <p class=\"contentBoxVideoBox_item_title\">" + videoName + "</p>\n" +
 				            "      <!-- 视频的一些描述 -->\n" +
@@ -303,10 +304,10 @@
             var responseResult=userStatus.responseResult;
             if (responseResult.errorCode == 1) {
                 var userInfo = userStatus.user;
-                var urlAddress="http://localhost:8080/Blog/UserServlet?cancellation=true";
+                var urlAddress=serverRoot+"/UserServlet?cancellation=true";
                 //代表已经登录了
-                var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
-                    "            <a href=\"\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
+                var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + serverRoot+userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
+                    "            <a href=\"#\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
                 var loginBox = document.getElementById("login-box");
                 loginBox.innerHTML = innerhtml;
 
@@ -322,6 +323,7 @@
             
             this.parseCanellationData=function(jsonResponse){
             	//alert(jsonResponse);
+            	window.location.reload();
             } 
     }
     </script>
@@ -356,11 +358,11 @@
 						var videoName=articleObj.videoName;
 						var videoAddress=articleObj.videoAddress;
 				        var videoDestribute=articleObj.videoDestribute;
-				        var serverUrl = "http://localhost:8080/Blog/VideoServlet?videoAddress=" + videoAddress;
+				        var serverUrl = serverRoot+"/VideoServlet?videoAddress=" + videoAddress;
 				        var innerHtml = "<div class=\"contentBoxVideoBox_item\">\n" +
 				            "     <a href=\"" + serverUrl + "\">\n" +
 				            "      <!-- 视频列表图片 -->\n" +
-				            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"http://localhost:8080/Blog/html/img/videoListBg.jpg\"/></div>\n" +
+				            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"../img/videoListBg.jpg\"/></div>\n" +
 				            "      <!-- 视频的标题 -->\n" +
 				            "      <p class=\"contentBoxVideoBox_item_title\">" + videoName + "</p>\n" +
 				            "      <!-- 视频的一些描述 -->\n" +
@@ -391,7 +393,7 @@
         */
     	(function (){
     		var request=new Request();
-    		var url="http://localhost:8080/Blog/VideoServlet?allVideo=1";
+    		var url=serverRoot+"/VideoServlet?allVideo=1";
     		request.requestGet(url,parseResponse.parseVideoAllList);
     	})();
         
@@ -401,7 +403,7 @@
         */
         (function(){
         	var request=new Request();
-        	var url="http://localhost:8080/Blog/VideoServlet?classfy=1"
+        	var url=serverRoot+"/VideoServlet?classfy=1"
         	request.requestGet(url,parseResponse.parseVideoByClassfy);
         })();
         
@@ -410,7 +412,7 @@
         检验用户是否已经登录
         */
         (function(){
-        	var requestUserStatus="http://localhost:8080/Blog/UserServlet?status=1";
+        	var requestUserStatus=serverRoot+"/UserServlet?status=1";
             var req = new Request();
             var parseRequest = new ParseResponse();
             req.requestGet(requestUserStatus, parseRequest.userLoginInfo);
@@ -456,11 +458,11 @@
         			var videoName=articleObj.videoName;
 					var videoAddress=articleObj.videoAddress;
 			        var videoDestribute=articleObj.videoDestribute;
-			        var serverUrl = "http://localhost:8080/Blog/VideoServlet?videoAddress=" + videoAddress;
+			        var serverUrl = serverRoot+"/VideoServlet?videoAddress=" + videoAddress;
 			        var innerHtml = "<div class=\"contentBoxVideoBox_item\">\n" +
 			            "     <a href=\"" + serverUrl + "\">\n" +
 			            "      <!-- 视频列表图片 -->\n" +
-			            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"http://localhost:8080/Blog/html/img/videoListBg.jpg\"/></div>\n" +
+			            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"../img/videoListBg.jpg\"/></div>\n" +
 			            "      <!-- 视频的标题 -->\n" +
 			            "      <p class=\"contentBoxVideoBox_item_title\">" + videoName + "</p>\n" +
 			            "      <!-- 视频的一些描述 -->\n" +
@@ -486,11 +488,11 @@
 	        			var videoName=articleObj.videoName;
 						var videoAddress=articleObj.videoAddress;
 				        var videoDestribute=articleObj.videoDestribute;
-				        var serverUrl = "http://localhost:8080/Blog/VideoServlet?videoAddress=" + videoAddress;
+				        var serverUrl = serverRoot+"/VideoServlet?videoAddress=" + videoAddress;
 				        var innerHtml = "<div class=\"contentBoxVideoBox_item\">\n" +
 				            "     <a href=\"" + serverUrl + "\">\n" +
 				            "      <!-- 视频列表图片 -->\n" +
-				            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"http://localhost:8080/Blog/html/img/videoListBg.jpg\"/></div>\n" +
+				            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"../img/videoListBg.jpg\"/></div>\n" +
 				            "      <!-- 视频的标题 -->\n" +
 				            "      <p class=\"contentBoxVideoBox_item_title\">" + videoName + "</p>\n" +
 				            "      <!-- 视频的一些描述 -->\n" +
@@ -518,11 +520,11 @@
 	        			var videoName=articleObj.videoName;
 						var videoAddress=articleObj.videoAddress;
 				        var videoDestribute=articleObj.videoDestribute;
-				        var serverUrl = "http://localhost:8080/Blog/VideoServlet?videoAddress=" + videoAddress;
+				        var serverUrl = serverRoot+"/VideoServlet?videoAddress=" + videoAddress;
 				        var innerHtml = "<div class=\"contentBoxVideoBox_item\">\n" +
 				            "     <a href=\"" + serverUrl + "\">\n" +
 				            "      <!-- 视频列表图片 -->\n" +
-				            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"http://localhost:8080/Blog/html/img/videoListBg.jpg\"/></div>\n" +
+				            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"../img/videoListBg.jpg\"/></div>\n" +
 				            "      <!-- 视频的标题 -->\n" +
 				            "      <p class=\"contentBoxVideoBox_item_title\">" + videoName + "</p>\n" +
 				            "      <!-- 视频的一些描述 -->\n" +
@@ -555,11 +557,11 @@
         			var videoName=articleObj.videoName;
 					var videoAddress=articleObj.videoAddress;
 			        var videoDestribute=articleObj.videoDestribute;
-			        var serverUrl = "http://localhost:8080/Blog/VideoServlet?videoAddress=" + videoAddress;
+			        var serverUrl = serverRoot+"/VideoServlet?videoAddress=" + videoAddress;
 			        var innerHtml = "<div class=\"contentBoxVideoBox_item\">\n" +
 			            "     <a href=\"" + serverUrl + "\">\n" +
 			            "      <!-- 视频列表图片 -->\n" +
-			            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"http://localhost:8080/Blog/html/img/videoListBg.jpg\"/></div>\n" +
+			            "      <div class=\"contentBoxVideoBox_item_imgBox\"><img class=\"contentBoxVideoBox_item_img\" src=\"../img/videoListBg.jpg\"/></div>\n" +
 			            "      <!-- 视频的标题 -->\n" +
 			            "      <p class=\"contentBoxVideoBox_item_title\">" + videoName + "</p>\n" +
 			            "      <!-- 视频的一些描述 -->\n" +
@@ -614,7 +616,7 @@
 </head>
 <body>
 <div data-v-07578fd8="" class="header-wrap clearfix">
-    <img data-v-07578fd8="" src="http://localhost:8080/Blog/html/img/logo.9bde9cc.png" alt="段亮个人博客" class="logo fl">
+    <span style="display: inline-block;height: 60px;font-size: 22px;line-height: 60px;color: #111;">小芳芳的博客</span>
     <div data-v-07578fd8="" class="nav-wrap">
         <ul data-v-07578fd8="" class="nav-list">
             <li data-v-07578fd8="" class="nav-item "><a href="index.html">首页</a></li>
@@ -640,7 +642,7 @@
 	<div class="container">
 	     <!-- 网页的指示器 -->
 		<div class="indictor">
-			<img alt="指数器" class="indictorImg" src="http://localhost:8080/Blog/html/img/position.svg">
+			<img alt="指数器" class="indictorImg" src="../img/position.svg">
 			<span>首页</span>&gt;
 			<span>视频教程</span>
 		</div>
@@ -661,7 +663,7 @@
 						<p>盲目的学习，导致的结果就是：浪费了不该浪费的时间和精力，同时也浪费了金钱。</p>
 						<p>免费试听以下教程，让你明白：原来做一个网站是如此的简单！ </p>
 					</div>
-					<div class="contentHeadDestributeRight"><img class="contentHeadDestributeRight_Img" src="http://localhost:8080/Blog/html/img/video-info-bg.jpg"/></div>
+					<div class="contentHeadDestributeRight"><img class="contentHeadDestributeRight_Img" src="../img/video-info-bg.jpg"/></div>
 				</div>
 			</div>
 			<!-- 视频播放的列表 -->
@@ -669,7 +671,7 @@
 				<div class="contentBoxVideoBox_item">
 					<a href="#">
 						<!-- 视频列表图片 -->
-						<div class="contentBoxVideoBox_item_imgBox"><img class="contentBoxVideoBox_item_img" src="http://localhost:8080/Blog/html/img/videoListBg.jpg"/></div>
+						<div class="contentBoxVideoBox_item_imgBox"><img class="contentBoxVideoBox_item_img" src="../img/videoListBg.jpg"/></div>
 						<!-- 视频的标题 -->
 						<p class="contentBoxVideoBox_item_title">第一节：网页入门 - 网页制作视频基础教程</p>
 						<!-- 视频的一些描述 -->

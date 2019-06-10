@@ -1,11 +1,23 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+       <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+       <c:set var="path" value="http://localhost:8080${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 	<title>Insert title here</title>
-	<link href="http://localhost:8080/Blog/jsp/css/indexTitle.css" type="text/css" rel="stylesheet">
+	<link type="text/css" rel="stylesheet" href="/Blog/html/css/indexTitle.css">
+	<script type="text/javascript" src="/Blog/html/js/param.js"></script>
+	<style type="text/css">
+		
+		body{
+		background: #fff;
+		}
+	
+		
+	
+	</style>
 	 <script>
         /**
          * 全局的文章评论列表
@@ -345,7 +357,7 @@
                             tuijianSingle[i].onclick = function (ev) {
                             	
                                 var articleAddress = articleJson[this.index].articleAddress;
-                                iframe.src = articleAddress;
+                                iframe.src = serverRoot+articleAddress;
                                 currentArticlePublishTime = articleJson[this.index].articlePublishTime;
                                 //修改文章标题  编辑时间  浏览量 作者 ，更新浏览量
                                 articleHead.innerHTML=articleJson[this.index].articleName;
@@ -378,8 +390,8 @@
                         var userInfo = userStatus.user;
                         var urlAddress="http://localhost:8080/Blog/UserServlet?cancellation=true";
                         //代表已经登录了
-                        var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
-                            "            <a href=\"\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
+                        var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" +serverRoot+ userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
+                            "            <a href=\"#\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
                         var loginBox = document.getElementById("login-box");
                         loginBox.innerHTML = innerhtml;
   
@@ -392,9 +404,9 @@
                         }
                     }
                 }
-                    
+                   
                     this.parseCanellationData=function(jsonResponse){
-                    	//alert(jsonResponse);
+                    	window.location.reload();
                     }
                 
                 
@@ -830,7 +842,7 @@
 </head>
 <body>
 	<div data-v-07578fd8="" class="header-wrap clearfix">
-    <img data-v-07578fd8="" src="http://localhost:8080/Blog/jsp/images/logo.9bde9cc.png" alt="段亮个人博客" class="logo fl">
+   <span style="display: inline-block;height: 60px;font-size: 22px;line-height: 60px;color: #111;">小芳芳的博客</span>
     <div data-v-07578fd8="" class="nav-wrap">
         <ul data-v-07578fd8="" class="nav-list">
             <li data-v-07578fd8="" class="nav-item "><a href="../../Blog/html/html/index.html">首页</a></li>
@@ -867,7 +879,7 @@
 
             <!--下面文章的显示-->
                 <!--文章的信息显示-->
-                <iframe src="${requestScope.article.articleAddress}" id="iframe" width="900px" scrolling="no"></iframe>
+                <iframe src="${path}${requestScope.article.articleAddress}" id="iframe" width="900px" scrolling="no"></iframe>
             <div class="articleBottom">
                 <!--文章出处-->
                 <p>本文出处:<a href="" id="pageAddress"></a></p>
@@ -882,13 +894,13 @@
                     <div class="leftWeChat">
                         <p>微信扫一扫</p>
                         <div class="erweima">
-                            <img src="http://localhost:8080/Blog/html/img/alipay-ds.jpg" height="160px"/>
+                            <img src="/Blog/html/img/alipay-ds.jpg" height="160px"/>
                         </div>
                     </div>
                     <div class="aliPay">
                         <p>支付宝扫一扫</p>
                         <div class="erweima">
-                            <img src="http://localhost:8080/Blog/html/img/weChat-ds.jpg" height="160px"/>
+                            <img src="/Blog/html/img/weChat-ds.jpg" height="160px"/>
                         </div>
                     </div>
                 </div>
@@ -937,7 +949,7 @@
             <div class="searchArea">
                 <div class="searchBox">
                     <input type="text" maxlength="40" size="24" value="全站搜索" class="inputSearch">
-                    <img src="http://localhost:8080/Blog/jsp/images/search.svg" class="searchIcon" id="searchButton"/>
+                    <img src="/Blog/jsp/images/search.svg" class="searchIcon" id="searchButton"/>
                 </div>
             </div>
             <div>

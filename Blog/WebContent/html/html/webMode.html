@@ -4,6 +4,14 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="../css/indexTitle.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript"></script>
+    <script type="text/javascript" src="../js/param.js"></script>
+    <style type="text/css">
+    
+    body{
+    background: #fff;
+    }
+    </style>
     <script>
     function ParseResponse() {
     	  /*
@@ -22,8 +30,8 @@
                 var userInfo = userStatus.user;
                 var urlAddress="http://localhost:8080/Blog/UserServlet?cancellation=true";
                 //代表已经登录了
-                var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
-                    "            <a href=\"\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
+                var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" +serverRoot+userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
+                    "            <a href=\"#\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
                 var loginBox = document.getElementById("login-box");
                 loginBox.innerHTML = innerhtml;
 
@@ -42,6 +50,7 @@
             
             this.parseCanellationData=function(jsonResponse){
             	//alert(jsonResponse);
+            	window.location.reload();
             } 
     }
     </script>
@@ -141,7 +150,7 @@
 <body>
 
 <div data-v-07578fd8="" class="header-wrap clearfix">
-    <img data-v-07578fd8="" src="../img/logo.9bde9cc.png" alt="段亮个人博客" class="logo fl">
+       <span style="display: inline-block;height: 60px;font-size: 22px;line-height: 60px;color: #111;">小芳芳的博客</span>
     <div data-v-07578fd8="" class="nav-wrap">
         <ul data-v-07578fd8="" class="nav-list">
             <li data-v-07578fd8="" class="nav-item "><a href="index.html" >首页</a></li>

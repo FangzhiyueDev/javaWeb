@@ -4,8 +4,21 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="../css/indexTitle.css" type="text/css" rel="stylesheet">
+      <script type="text/javascript" src="../js/param.js"></script>
+     <style type="text/css">
+    
+    body{
+    background: #fff;
+    }
+    </style>
           <script>
     function ParseResponse() {
+    	
+        this.parseCanellationData=function(jsonResponse){
+        	//alert(jsonResponse);
+        	window.location.reload();
+        } 
+    	
     	  /*
         下面的代码是用来检测用户是否已经登录
         */
@@ -20,10 +33,10 @@
             var responseResult=userStatus.responseResult;
             if (responseResult.errorCode == 1) {
                 var userInfo = userStatus.user;
-                var urlAddress="http://localhost:8080/Blog/UserServlet?cancellation=true";
+                var urlAddress=serverRoot+"/UserServlet?cancellation=true";
                 //代表已经登录了
-                var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
-                    "            <a href=\"\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
+                var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + serverRoot+userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
+                    "            <a href=\"#\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
                 var loginBox = document.getElementById("login-box");
                 loginBox.innerHTML = innerhtml;
 
@@ -37,9 +50,7 @@
             }
         }
             
-            this.parseCanellationData=function(jsonResponse){
-            	//alert(jsonResponse);
-            } 
+     
             
             
             /**
@@ -137,7 +148,7 @@
     检验用户是否已经登录
     */
     (function(){
-    	var requestUserStatus="http://localhost:8080/Blog/UserServlet?status=1";
+    	var requestUserStatus=serverRoot+"/UserServlet?status=1";
         var req = new Request();
         var parseRequest = new ParseResponse();
         req.requestGet(requestUserStatus, parseRequest.userLoginInfo);
@@ -147,7 +158,7 @@
     获得作者的详细信息
     */
     (function(){
-    	var requestAuthorInfo="http://localhost:8080/Blog/ManagerServlet?opration=detail";
+    	var requestAuthorInfo=serverRoot+"/ManagerServlet?opration=detail";
         var req = new Request();
         var parseRequest = new ParseResponse();
         req.requestGet(requestAuthorInfo, parseRequest.authorInfo);
@@ -364,6 +375,10 @@
             margin-bottom: 10px;
         }
         
+        .userImg{
+        	width:250px;
+        }
+        
         
     </style>
     
@@ -371,7 +386,7 @@
 <body>
 
 <div data-v-07578fd8="" class="header-wrap clearfix">
-    <img data-v-07578fd8="" src="../img/logo.9bde9cc.png" alt="段亮个人博客" class="logo fl">
+     <span style="display: inline-block;height: 60px;font-size: 22px;line-height: 60px;color: #111;">小芳芳的博客</span>
     <div data-v-07578fd8="" class="nav-wrap">
         <ul data-v-07578fd8="" class="nav-list">
             <li data-v-07578fd8="" class="nav-item "><a href="index.html" >首页</a></li>
@@ -395,7 +410,7 @@
 	<div class="container">
 			<!-- 头部的指示器 -->
 			<div class="indictor">
-				<img alt="指数器" class="indictorImg" src="http://localhost:8080/Blog/html/img/position.svg">
+				<img alt="指数器" class="indictorImg" src="../img/position.svg">
 				<span>首页</span>&gt;
 				<span>个人日记</span>
 		    </div>
@@ -405,7 +420,7 @@
 		    	<div class="leftContainer">
 		    		<!-- 左边自己的图片 -->
 		    		<div class="leftContainerImgBox">
-		    			<img src="../img/user.jpg"/>
+		    			<img src="../img/user.jpg"class="userImg"/>
 		    		</div>
 		    		<!-- 右边自己的个人信息的简介 -->
 		    		<div class="leftContainerRightDes pfontStyle">
@@ -435,7 +450,7 @@
                 <div class="searchArea">
                     <div class="searchBox">
                         <input type="text" maxlength="40" size="24" value="全站搜索" class="inputSearch">
-                        <img src="http://localhost:8080/Blog/html/img/search.svg" class="searchIcon" id="searchButton"/>
+                        <img src="../img/search.svg" class="searchIcon" id="searchButton"/>
                         <script>
                         </script>
                     </div>

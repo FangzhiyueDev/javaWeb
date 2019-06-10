@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="../css/indexTitle.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="../js/param.js"></script>
+    <style type="text/css">
+    	body{
+    	background:#fff;
+    	}
+    
+    </style>
     <script>
 
 
@@ -29,7 +36,7 @@
          * {
                             "count": 16,
                             "videoName": "HTML基础02_标准结构",
-                            "videoAddress": "http://localhost:8080/Blog/video/HTML基础02_标准结构.mp4",
+                            "videoAddress": serverRoot+"/video/HTML基础02_标准结构.mp4",
                             "videoSize": "221MB",
                             "uploadTime": "201811131735",
                             "videoNote": "HTML基础02_标准结构",
@@ -171,7 +178,9 @@
 
                 }
 
-                var videoServerAddress = "http://localhost:8080/Blog/VideoServlet"
+                var videoServerAddress = serverRoot+"/VideoServlet"
+                
+                
 
                 /**
                  * @param jsonObject
@@ -179,6 +188,7 @@
                  */
                 this.parseVideoJsonData = function (jsonResponse) {
 					//alert(jsonResponse)
+					//console.log(jsonResponse);
                     var linkBox = document.getElementById("videoContainer");
                     var boxs = linkBox.getElementsByClassName("link");
 
@@ -189,7 +199,7 @@
 
 
                     for (var i = 0; i < jsonVideo.length; i++) {
-                        var videoLinkAddress = videoServerAddress + "?videoAddress=" + jsonVideo[i].videoAddress;
+                        var videoLinkAddress = videoServerAddress + "?videoAddress="+ jsonVideo[i].videoAddress;
                         var innerhtml = "<a class=\"link\" href=\""+videoLinkAddress+"\">\n" +
                             "        <div class=\"box\">\n" +
                             "            <ul class=\"list\">\n" +
@@ -205,7 +215,6 @@
                         content += innerhtml;
                     }
                     document.getElementById("videoContainer").innerHTML = content;
-
                 }
 
                 /**
@@ -217,6 +226,7 @@
                     var content1 = "";
 
                     //alert(jsonObject)
+                    console.log(jsonObject);
                     var articleObj = document.getElementById("articleDetail");
                     var jsonArticle = JSON.parse(jsonObject);
                     //将文章的信息直接存放到全局中
@@ -226,35 +236,40 @@
                     	var userinfo=jsonArticle[i].user;
                         var timeAndDate = formatDateAndTime(jsonArticle[i].articlePublishTime);
                         var innerHtml = "<div class=\"articleContent\">\n" +
-                            "                    <div class=\"articlePicture\"><img src=\"" + jsonArticle[i].articlePictureAddress + "\" width=\"205px\" height=\"136px\"></div>\n" +
+                            "                    <div class=\"articlePicture\"><img src=\"" + serverRoot+jsonArticle[i].articlePictureAddress + "\" width=\"205px\" height=\"136px\"></div>\n" +
                             "                    <div class=\"articleInfo\">\n" +
                             "                        <h4 class=\"marginFill\">" + jsonArticle[i].articleName + "</h4>\n" +
-                            "                        <img src=\""+userinfo.picture+"\" width=\"25px\" />\n" +
+                            "                        <img src=\""+serverRoot+userinfo.picture+"\" width=\"25px\" />\n" +
                             "                        <span style='font-size: 14px;'>发布时间:&nbsp;" + timeAndDate + "</span>\n" +
                             "                     &nbsp;&nbsp;   <span style='font-size: 14px;'>分类:&nbsp;" + jsonArticle[i].classfy + "</span>\n" +
                             "                        <p class='articleDescribute'>" + jsonArticle[i].articleDestribute + "</p>\n" +
                             "                    </div>\n";
-                        var articleQuery = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + jsonArticle[i].articlePublishTime+"&opration=detail";
+                        var articleQuery = serverRoot+"/ArticleServlet?articlePublishTime=" + jsonArticle[i].articlePublishTime+"&opration=detail";
                         var linkHtml = "<a href='" + articleQuery + "'>" + innerHtml + "</a>"
                         articleObj.innerHTML += linkHtml;
 
                     }
                 }
+                
+                this.parseCanellationData=function(jsonResponse){
+                	window.location.reload();
+                }
+                
                 /**
                  * 用户状态的查询
                  * @param ev
                  */
-                this.userLoginInfo = function (jsonResponse) {
+                this.userLoginInfo = function (jsonResponse)  {
                    
                     var userStatus = JSON.parse(jsonResponse);
                     var responseResult=userStatus.responseResult;
                     if (responseResult.errorCode == 1) {
                         var userInfo = userStatus.user;
-                        var urlAddress="http://localhost:8080/Blog/UserServlet?cancellation=true";
+                        var urlAddress=serverRoot+"/UserServlet?cancellation=true";
                         //代表已经登录了
-                        var userCenterInfo="http://localhost:8080/Blog/UserServlet?opration=userCenter";
-                        var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
-                            "            <a href=\"\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
+                        var userCenterInfo=serverRoot+"/UserServlet?opration=userCenter";
+                        var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + serverRoot+userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
+                            "            <a href=\"#\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
                         var loginBox = document.getElementById("login-box");
                         loginBox.innerHTML = innerhtml;
   
@@ -267,9 +282,7 @@
                         }
                     }
                     
-                    this.parseCanellationData=function(jsonResponse){
-                    	alert(jsonResponse)
-                    }
+                  
                     
                 }
                 /**
@@ -286,7 +299,7 @@
                     var tuijianArticleListBox = document.getElementById("tuijianArticleListBox");
                     tuijianArticleListBox.innerHTML = "";
                     for (var i = 0; i < articleReadCounts.length; i++) {
-                    	 var articleQuery = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + articleReadCounts[i].articlePublishTime+"&opration=detail";
+                    	 var articleQuery = serverRoot+"/ArticleServlet?articlePublishTime=" + articleReadCounts[i].articlePublishTime+"&opration=detail";
                         var innerHtml = "                        <a href=\""+articleQuery+"\">\n" +
                             "                            <li class=\"tuijianArticleList\">\n" +
                             "                                <span class=\"tuijianArticleRank\">" + (i + 1) + "</span>\n" +
@@ -316,7 +329,7 @@
                             "                        <div class=\"bottomArticleSingleList\">\n";
                         articleInfos = articleClassfy.articles;
                         for (var j = 0; j < articleInfos.length; j++) {
-                        	 var articleQuery = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + articleInfos[j].articlePublishTime+"&opration=detail";
+                        	 var articleQuery = serverRoot+"/ArticleServlet?articlePublishTime=" + articleInfos[j].articlePublishTime+"&opration=detail";
                             //alert(articleQuery)
                         	 //下面是文章的相关信息
                             var inner = "  <li class=\"tuijianArticleList\">\n" +
@@ -384,7 +397,7 @@
                         var name = leaveMessageUserObj[i].name;
                         var picture = leaveMessageUserObj[i].picture;
                         var innerHtml = "                        <div class=\"nowLeaveMessageSingle\">\n" +
-                            "                            <img src=\"" + picture + "\" align=\"top\" class='headPicture'>\n" +
+                            "                            <img src=\"" + serverRoot+picture + "\" align=\"top\" class='headPicture'>\n" +
                             "                            <div class=\"nowLeaveMessageContent\">\n" +
                             "                                <h5 class=\"currentSelect\">" + name + "</h5>\n" +
                             "                                <p class=\"nowLeaveMessageContentTalk\">" + content + "</p>\n" +
@@ -398,24 +411,24 @@
             }
 
 
-            var imgAddress = "http://localhost:8080/Blog/ImgServlet";
+            var imgAddress = serverRoot+"/ImgServlet";
             //参数代表的是获得最新的每日一言的数据的数量2代表两个
-            var proverbAddress = "http://localhost:8080/Blog/ProverbServlet?current=2"
+            var proverbAddress = serverRoot+"/ProverbServlet?current=2"
 
-            var videoAddress = "http://localhost:8080/Blog/VideoServlet?current=5"
+            var videoAddress = serverRoot+"/VideoServlet?current=5"
 
-            var articleAddress = "http://localhost:8080/Blog/ArticleServlet?current=10"
+            var articleAddress = serverRoot+"/ArticleServlet?current=10"
 
-            var userLoginValidate = "http://localhost:8080/Blog/UserServlet?status=1";
+            var userLoginValidate = serverRoot+"/UserServlet?status=1";
 
-            var articleClassAddress = "http://localhost:8080/Blog/DataRecord?videoRecord=6&articleRecord=6"
+            var articleClassAddress = serverRoot+"/DataRecord?videoRecord=6&articleRecord=6"
             //系统界面下边的通过系统的分类实现文章的排列
-            var articleClassfy = "http://localhost:8080/Blog/ArticleServlet?classfy=1"
+            var articleClassfy = serverRoot+"/ArticleServlet?classfy=1"
             //网站的日志logcat
-            var websiteLogcat = "http://localhost:8080/Blog/LogcatServlet?logcat=6";
+            var websiteLogcat = serverRoot+"/LogcatServlet?logcat=6";
             //网站的外链
-            var webLink = "http://localhost:8080/Blog/LinkServlet?link=4"
-            var leaveMeassage = "http://localhost:8080/Blog/LeaveMessageServlet?message=6"
+            var webLink = serverRoot+"/LinkServlet?link=4"
+            var leaveMeassage = serverRoot+"/LeaveMessageServlet?message=6"
             var request = new Request();
             var parseData = new ParseData();
 
@@ -473,7 +486,7 @@
                                 var tuijianArticleListBox = document.getElementById("tuijianArticleListBox");
                                 tuijianArticleListBox.innerHTML = "";
                                 for (var i = 0; i < articleReadCounts.length; i++) {
-                                	var articleQuery = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + articleReadCounts[i].articlePublishTime+"&opration=detail";
+                                	var articleQuery = serverRoot+"/ArticleServlet?articlePublishTime=" + articleReadCounts[i].articlePublishTime+"&opration=detail";
                                     var innerHtml = "                        <a href=\""+articleQuery+"\">\n" +
                                         "                            <li class=\"tuijianArticleList\">\n" +
                                         "                                <span class=\"tuijianArticleRank\" >" + (i + 1) + "</span>\n" +
@@ -490,7 +503,7 @@
                                 tuijianArticleListBox.innerHTML = "";
                                 for (var i = 0; i < videoWatchCounts.length; i++) {
                                 	//alert(videoWatchCounts[i].videoAddress)
-                                	var url="http://localhost:8080/Blog/VideoServlet?videoAddress="+videoWatchCounts[i].videoAddress;	
+                                	var url=serverRoot+"/VideoServlet?videoAddress="+videoWatchCounts[i].videoAddress;	
                                     var innerHtml = "                        <a href=\""+url+"\">\n" +
                                         "                            <li class=\"tuijianArticleList\">\n" +
                                         "                                <span class=\"tuijianArticleRank\">" + (i + 1) + "</span>\n" +
@@ -1030,6 +1043,10 @@
         	line-height:50px;
         	text-align: center;
         }
+        
+        .weChatImg{
+          width:100px;
+        }
 
 
     </style>
@@ -1038,7 +1055,8 @@
 <body>
 
 <div data-v-07578fd8="" class="header-wrap clearfix">
-    <img data-v-07578fd8="" src="../img/logo.9bde9cc.png" alt="段亮个人博客" class="logo fl">
+   <!--  <img data-v-07578fd8="" src="../img/logo.9bde9cc.png" alt="段亮个人博客" class="logo fl">-->
+   <span style="display: inline-block;height: 60px;font-size: 22px;line-height: 60px;color: #111;">小芳芳的博客</span>
     <div data-v-07578fd8="" class="nav-wrap">
         <ul data-v-07578fd8="" class="nav-list">
             <li data-v-07578fd8="" class="nav-item "><a href="index.html" class="active">首页</a></li>
@@ -1186,7 +1204,7 @@
                     </ul>
                     <div>
                         <span class="learnFont">微信公众号：</span>
-                        <img src="../img/weixin.png" align="top"/>
+                        <img src="../img/weixin.png" align="top" class="weChatImg"/>
                     </div>
 
 

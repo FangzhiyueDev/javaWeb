@@ -4,20 +4,27 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="../css/indexTitle.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="../js/param.js"></script>
+     <style type="text/css">
+    
+    body{
+    background: #fff;
+    }
+    </style>
       <script>
       /**
       全集的文章信息，存放的文章信息中，包含了作者的相关信息，下面是一个单条数据的显示格式
       
       {"user":{"name":"无名帅蟀",
     	  		"userid":123456,
-    	     	"picture":"http://localhost:8080/Blog/userHeadPortrait/usepricture.jpeg"
+    	     	"picture":serverRoot+"/userHeadPortrait/usepricture.jpeg"
     	       },
     	"articleDestribute":"1_常见标记",
     	"articleName":"html里面的常用标记",
     	"articlePublishTime":"201811141808","authorid":111111,
-    	"articleAddress":"http://localhost:8080/Blog/article/1_common_mark.html",
+    	"articleAddress":serverRoot+"/article/1_common_mark.html",
     	"classfy":"html基础入门",
-    	"articlePictureAddress":"http://localhost:8080/Blog/html/img/one.jpeg"
+    	"articlePictureAddress":serverRoot+"/html/img/one.jpeg"
     	}
       */
       var globalArticleListInfo;
@@ -28,14 +35,14 @@
       {"classfy":[
      {"user":{"name":"无名帅蟀",
 	  		"userid":123456,
-	     	"picture":"http://localhost:8080/Blog/userHeadPortrait/usepricture.jpeg"
+	     	"picture":serverRoot+"/userHeadPortrait/usepricture.jpeg"
 	       },
 	"articleDestribute":"1_常见标记",
 	"articleName":"html里面的常用标记",
 	"articlePublishTime":"201811141808","authorid":111111,
-	"articleAddress":"http://localhost:8080/Blog/article/1_common_mark.html",
+	"articleAddress":serverRoot+"/article/1_common_mark.html",
 	"classfy":"html基础入门",
-	"articlePictureAddress":"http://localhost:8080/Blog/html/img/one.jpeg"
+	"articlePictureAddress":serverRoot+"/html/img/one.jpeg"
 	}]}
       */
       var jsonDataClassObjSet;
@@ -93,10 +100,10 @@
             var responseResult=userStatus.responseResult;
             if (responseResult.errorCode == 1) {
                 var userInfo = userStatus.user;
-                var urlAddress="http://localhost:8080/Blog/UserServlet?cancellation=true";
+                var urlAddress=serverRoot+"/UserServlet?cancellation=true";
                 //代表已经登录了
-                var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
-                    "            <a href=\"\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
+                var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + serverRoot+userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
+                    "            <a href=\"#\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
                 var loginBox = document.getElementById("login-box");
                 loginBox.innerHTML = innerhtml;
 
@@ -112,6 +119,7 @@
             
             this.parseCanellationData=function(jsonResponse){
             	//alert(jsonResponse);
+            	window.location.reload();
             } 
             
             /**
@@ -125,7 +133,7 @@
             	 var tuijianArticleListBox = document.getElementById("tuijianArticleListBox");
                     tuijianArticleListBox.innerHTML = "";
                     for (var i = 0; i < articleReadCounts.length; i++) {
-                    	 var articleQuery = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + articleReadCounts[i].articlePublishTime+"&opration=detail";
+                    	 var articleQuery = serverRoot+"/ArticleServlet?articlePublishTime=" + articleReadCounts[i].articlePublishTime+"&opration=detail";
                         var innerHtml = "                        <a href=\""+articleQuery+"\">\n" +
                             "                            <li class=\"tuijianArticleList\">\n" +
                             "                                <span class=\"tuijianArticleRank\">" + (i + 1) + "</span>\n" +
@@ -152,14 +160,14 @@
             	leftArticleList.innerHTML="";
             	var articleList=JSON.parse(globalArticleListInfo);
             	for(var i=0;i<articleList.length;i++){
-            		var articleQuery = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + articleList[i].articlePublishTime+"&opration=detail";
+            		var articleQuery = serverRoot+"/ArticleServlet?articlePublishTime=" + articleList[i].articlePublishTime+"&opration=detail";
             		 var innerHtml="<div class=\"leftArticleSingle\">\n" +
                      "     <a href=\""+articleQuery+"\">\n" +
-                     "      <div class=\"leftArticleImg\"><img src=\""+articleList[i].articlePictureAddress+"\" width=\"175px\" height=\"117px\"/></div>\n" +
+                     "      <div class=\"leftArticleImg\"><img src=\""+serverRoot+articleList[i].articlePictureAddress+"\" width=\"175px\" height=\"117px\"/></div>\n" +
                      "      <div class=\"rightContent\">\n" +
                      "       <h3 class=\"headFontColor\">"+articleList[i].articleName+"</h3>\n" +
                      "                          <ul>\n" +
-                     "                           <li><img alt=\"\" src=\""+articleList[i].user.picture+"\" width=\"25px\"></li>\n" +
+                     "                           <li><img alt=\"\" src=\""+serverRoot+articleList[i].user.picture+"\" width=\"25px\"></li>\n" +
                      "                           <li>\n" +
                      "                            <span class=\"contentFontColor\">"+articleList[i].user.name+"</span>\n" +
                      "                            <span class=\"contentFontColor\">&nbsp;&nbsp;发布时间:&nbsp;"+formatDateAndTime(articleList[i].articlePublishTime)+"</span> \n" +
@@ -184,12 +192,26 @@
 				var classfyArray=new Array();
             	classfyArray[0]=articleList[0].classfy;
             	for(var j=0;j<articleList.length;j++){
+            		var has=-1;
             		for(var i=0;i<classfyArray.length;i++){
             			if(articleList[j].classfy!=classfyArray[i]){
-                			classfyArray[classfyArray.length]=articleList[j].classfy;
+            				has=j;
+            				continue;
+            				console.log(articleList[j].classfy+"\t"+classfyArray[i])
+                		}else{
+                			has=-1;
+                			break;
                 		}	
             		}
+            	
+            		if(has!=-1){
+            			classfyArray[classfyArray.length]=articleList[has].classfy;
+            		}
+            		
+            		
             	}
+            	
+            	
 				
         		function ClassfyObj(classfyArray,arrayArticleInfo){
         			this.classfy=classfyArray;
@@ -211,6 +233,9 @@
             	
             	//被进行分类后的文章数据
             	jsonDataClassObjSet=JSON.stringify(classfyObjList);
+            	
+            	//console.log(jsonDataClassObjSet)
+            	
             	for(var i=0;i<classfyObjList.length;i++){
             		var classfy=classfyObjList[i].classfy;
             		var innerHtml = "<li class=\"classfyLi\"><a href=\"#\"><span>"+classfy+"</span></a></li>";
@@ -230,14 +255,14 @@
             	            	leftArticleList.innerHTML="";
             	            	articleList=classfyObjList[i].articles;
             	            	for(var i=0;i<articleList.length;i++){
-            	            		var articleQuery = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + articleList[i].articlePublishTime+"&opration=detail";
+            	            		var articleQuery = serverRoot+"/ArticleServlet?articlePublishTime=" + articleList[i].articlePublishTime+"&opration=detail";
             	            		 var innerHtml="<div class=\"leftArticleSingle\">\n" +
             	                     "     <a href=\""+articleQuery+"\">\n" +
-            	                     "      <div class=\"leftArticleImg\"><img src=\""+articleList[i].articlePictureAddress+"\" width=\"175px\" height=\"117px\"/></div>\n" +
+            	                     "      <div class=\"leftArticleImg\"><img src=\""+serverRoot+articleList[i].articlePictureAddress+"\" width=\"175px\" height=\"117px\"/></div>\n" +
             	                     "      <div class=\"rightContent\">\n" +
             	                     "       <h3 class=\"headFontColor\">"+articleList[i].articleName+"</h3>\n" +
             	                     "                          <ul>\n" +
-            	                     "                           <li><img alt=\"\" src=\""+articleList[i].user.picture+"\" width=\"25px\"></li>\n" +
+            	                     "                           <li><img alt=\"\" src=\""+serverRoot+articleList[i].user.picture+"\" width=\"25px\"></li>\n" +
             	                     "                           <li>\n" +
             	                     "                            <span class=\"contentFontColor\">"+articleList[i].user.name+"</span>\n" +
             	                     "                            <span class=\"contentFontColor\">&nbsp;&nbsp;发布时间:&nbsp;"+formatDateAndTime(articleList[i].articlePublishTime)+"</span> \n" +
@@ -328,7 +353,7 @@
     检验用户是否已经登录
     */
     (function(){
-    	var requestUserStatus="http://localhost:8080/Blog/UserServlet?status=1";
+    	var requestUserStatus=serverRoot+"/UserServlet?status=1";
         var req = new Request();
         var parseRequest = new ParseResponse();
         req.requestGet(requestUserStatus, parseRequest.userLoginInfo);
@@ -338,7 +363,7 @@
     获得热门文章
     */
     (function (){
-    	var url="http://localhost:8080/Blog/ArticleServlet?current=6";
+    	var url=serverRoot+"/ArticleServlet?current=6";
         var req = new Request();
         var parseRequest = new ParseResponse();
         req.requestGet(url, parseRequest.hotArticleList);
@@ -373,7 +398,7 @@
         	leftArticleList.innerHTML="";
             var articleList=globalCurrentClassArticleSet;
         	for(var i=offset;i<offset+pageSize;i++){
-        		var articleQuery = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + articleList[i].articlePublishTime+"&opration=detail";
+        		var articleQuery = serverRoot+"/ArticleServlet?articlePublishTime=" + articleList[i].articlePublishTime+"&opration=detail";
         		 var innerHtml="<div class=\"leftArticleSingle\">\n" +
                  "     <a href=\""+articleQuery+"\">\n" +
                  "      <div class=\"leftArticleImg\"><img src=\""+articleList[i].articlePictureAddress+"\" width=\"175px\" height=\"117px\"/></div>\n" +
@@ -406,7 +431,7 @@
             	if(i>=articleList.length){
             		return;
             	}
-        		var articleQuery = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + articleList[i].articlePublishTime+"&opration=detail";
+        		var articleQuery = serverRoot+"/ArticleServlet?articlePublishTime=" + articleList[i].articlePublishTime+"&opration=detail";
         		 var innerHtml="<div class=\"leftArticleSingle\">\n" +
                  "     <a href=\""+articleQuery+"\">\n" +
                  "      <div class=\"leftArticleImg\"><img src=\""+articleList[i].articlePictureAddress+"\" width=\"175px\" height=\"117px\"/></div>\n" +
@@ -440,7 +465,7 @@
             	if(i>=articleList.length){
             		return;
             	}
-        		var articleQuery = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + articleList[i].articlePublishTime+"&opration=detail";
+        		var articleQuery = serverRoot+"/ArticleServlet?articlePublishTime=" + articleList[i].articlePublishTime+"&opration=detail";
         		 var innerHtml="<div class=\"leftArticleSingle\">\n" +
                  "     <a href=\""+articleQuery+"\">\n" +
                  "      <div class=\"leftArticleImg\"><img src=\""+articleList[i].articlePictureAddress+"\" width=\"175px\" height=\"117px\"/></div>\n" +
@@ -477,7 +502,7 @@
             	if(i>=articleList.length){
             		return;
             	}
-        		var articleQuery = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + articleList[i].articlePublishTime+"&opration=detail";
+        		var articleQuery = serverRoot+"/ArticleServlet?articlePublishTime=" + articleList[i].articlePublishTime+"&opration=detail";
         		 var innerHtml="<div class=\"leftArticleSingle\">\n" +
                  "     <a href=\""+articleQuery+"\">\n" +
                  "      <div class=\"leftArticleImg\"><img src=\""+articleList[i].articlePictureAddress+"\" width=\"175px\" height=\"117px\"/></div>\n" +
@@ -798,7 +823,7 @@
 <body>
 
 <div data-v-07578fd8="" class="header-wrap clearfix">
-    <img data-v-07578fd8="" src="http://localhost:8080/Blog/html/img/logo.9bde9cc.png" alt="段亮个人博客" class="logo fl">
+      <span style="display: inline-block;height: 60px;font-size: 22px;line-height: 60px;color: #111;">小芳芳的博客</span>
     <div data-v-07578fd8="" class="nav-wrap">
         <ul data-v-07578fd8="" class="nav-list">
             <li data-v-07578fd8="" class="nav-item "><a href="index.html" >首页</a></li>
@@ -822,7 +847,7 @@
 	<div class="container">
 		<!-- 网页的指示栏 -->
 		<div class="instrutor">
-			<img src="http://localhost:8080/Blog/html/img/position.svg" />
+			<img src="../img/position.svg" />
 			<span>首页</span>&gt;
 			<span>学无止境</span>
 		</div>
@@ -859,7 +884,7 @@
                 <div class="searchArea">
                     <div class="searchBox">
                         <input type="text" maxlength="40" size="24" value="全站搜索" class="inputSearch">
-                        <img src="http://localhost:8080/Blog/html/img/search.svg" class="searchIcon" id="searchButton"/>
+                        <img src="../img/search.svg" class="searchIcon" id="searchButton"/>
                         <script>
                         </script>
                     </div>

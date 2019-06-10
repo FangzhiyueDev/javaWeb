@@ -5,14 +5,28 @@
     <!-- 
     这个界面的作用是实现播放视频的界面，
      -->
+     
+      <c:set var="path" value="http://localhost:8080${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
- <link href="http://localhost:8080/Blog/jsp/css/indexTitle.css" type="text/css" rel="stylesheet">
- <link rel="stylesheet" href="http://localhost:8080/Blog/jsp//css/search.css" type="text/css">
+ <link href="/Blog/jsp/css/indexTitle.css" type="text/css" rel="stylesheet">
+ <link rel="stylesheet" href="/Blog/jsp//css/search.css" type="text/css">
+ <script type="text/javascript" src="/Blog/html/js/param.js"></script>
+ 
+ <style type="text/css">
+ 	
+ 	body{
+ 	background: #fff;
+ 	}
+ 
+ </style>
+ 
    <script>
+   
+ 
    
    /**
     * 当前视频播放界面的视频的地址
@@ -176,7 +190,7 @@
                             + commentTime.substring(10, 12);
 
                         var innerHtml = "                                   <div class=\"commentSingle\">\n" +
-                            "                                        <img src=\"" + userHeadAddress + "\" align=\"top\" width=\"50px\" height=\"50px\">\n" +
+                            "                                        <img src=\"" + serverRoot+userHeadAddress + "\" align=\"top\" width=\"50px\" height=\"50px\">\n" +
                             "                                        <div class=\"allComment\">\n" +
                             "                                            <div class=\"dimension\"></div>\n" +
                             "                                            <h5><span class=\"currentSelect \">" + name + "</span></h5>\n" +
@@ -257,7 +271,7 @@
                         var userInfo = userStatus.user;
                         var urlAddress="http://localhost:8080/Blog/UserServlet?cancellation=true";
                         //代表已经登录了
-                        var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
+                        var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + serverRoot+userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
                             "            <a href=\"\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
                         var loginBox = document.getElementById("login-box");
                         loginBox.innerHTML = innerhtml;
@@ -274,13 +288,14 @@
                     
                     this.parseCanellationData=function(jsonResponse){
                     	//alert(jsonResponse);
+                    	window.location.reload();
                     }
                     
                     /**
                     请求获得视频播放的数量，以及更新当前的视频的播放量的服务返回数据的回调函数
                     */
                     this.parseVideoWatchCount=function(jsonResponse){
-                    	alert(jsonResponse);
+                    	//alert(jsonResponse);
                     	var countObj=JSON.parse(jsonResponse);
                     	var count=countObj.count;
                     	var spanObj=document.getElementById("watchCount");
@@ -447,8 +462,8 @@
                     linkspan[i].onclick = function (ev) {
                         var videoSingleJsonObj = JSON.parse(hiddleInfos[this.index].innerText);
                         videoName.innerText = videoSingleJsonObj.videoName;
-                        videoSource.src = videoSingleJsonObj.videoAddress;
-                        currentVideoAddress = videoSingleJsonObj.videoAddress;
+                        videoSource.src = serverRoot+videoSingleJsonObj.videoAddress;
+                        currentVideoAddress =videoSingleJsonObj.videoAddress;
                         videoSource.autoplay = true;
 
                         //下面是去更新具体的数据
@@ -738,7 +753,7 @@
                     <!--视频播放-->
                     <div class="videoPlayer">
                     <!--测试数据 http://localhost:8080/Blog/video/HTML基础02_标准结构.mp4 -->
-                        <video width="100%" height="100%" controls src="${requestScope.video.videoAddress}">
+                        <video width="100%" height="100%" controls src="${path}${requestScope.video.videoAddress}">
                             <!--<source src="../video/HTML基础02_标准结构.mp4" id="videoSource">-->
                             你的浏览器不支持html渲染播放
                         </video>

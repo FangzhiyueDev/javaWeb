@@ -9,4 +9,12 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  
+  <context-param>
+  	<param-name>SERVER_ROOT</param-name>
+  	<param-value>http://localhost:8080/Blog</param-value>
+  </context-param>
+  
+  
 </web-app>

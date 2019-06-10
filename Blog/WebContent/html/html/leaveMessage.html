@@ -4,6 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="../css/indexTitle.css" type="text/css" rel="stylesheet">
+     <script type="text/javascript" src="../js/param.js"></script>
+       <style type="text/css">
+    
+    body{
+    background: #fff;
+    }
+    </style>
        <script>
     function ParseResponse() {
     	  /*
@@ -20,10 +27,10 @@
             var responseResult=userStatus.responseResult;
             if (responseResult.errorCode == 1) {
                 var userInfo = userStatus.user;
-                var urlAddress="http://localhost:8080/Blog/UserServlet?cancellation=true";
+                var urlAddress=serverRoot+"/UserServlet?cancellation=true";
                 //代表已经登录了
-                var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" + userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
-                    "            <a href=\"\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
+                var innerhtml = "            <a href=\"userCenter.html\"><img data-v-07578fd8=\"\" height=\"30\" src=\"" +serverRoot+userInfo.picture + "\" class=\"img-item-user\"/></a>\n" +
+                    "            <a href=\"#\" class=\"cancellationButton\"><span data-v-07578fd8=\"\" class=\"item-text\">注销</span></a>"
                 var loginBox = document.getElementById("login-box");
                 loginBox.innerHTML = innerhtml;
 
@@ -57,7 +64,7 @@
 					var content=leaveMessage.content;
 					var time=formatDateAndTime(leaveMessage.leaveMessageTime);
 				    inner = "<div class=\"commentSingle\">\n" +
-			        "    <img src=\""+picture+"\" align=\"top\" class=\"commentListUserHead\">\n" +
+			        "    <img src=\""+serverRoot+picture+"\" align=\"top\" class=\"commentListUserHead\">\n" +
 			        "    <div class=\"allComment\">\n" +
 			        "        <div class=\"dimension\"></div>\n" +
 			        "        <h5><span class=\"currentSelect \">"+name+"</span></h5>\n" +
@@ -84,7 +91,7 @@
 				  		var request = new Request();
 		           		var parse = new ParseResponse();
 		           		//传递的参数message=-1代表的是获取所有的留言信息
-		           		var newCommentListAddress = "http://localhost:8080/Blog/LeaveMessageServlet?message=-1";
+		           		var newCommentListAddress = serverRoot+"/LeaveMessageServlet?message=-1";
 		           		request.requestGet(newCommentListAddress, parse.allLeaveMessage);
         			break;
         			case 2:
@@ -92,7 +99,7 @@
         				userComment.value="";
         			break;
         			case 3:
-        				location.href="http://localhost:8080/Blog/html/html/login.html";
+        				location.href=serverRoot+"/html/html/login.html";
         			break;
         			case 4:
         				userComment.value="";
@@ -112,7 +119,7 @@
                 (function () {
                     for (var i = 0; i < articleJson.length; i++) {
                         var article = articleJson[i];
-                        var articleQuery = "http://localhost:8080/Blog/ArticleServlet?articlePublishTime=" + article.articlePublishTime+"&opration=detail";
+                        var articleQuery = serverRoot+"/ArticleServlet?articlePublishTime=" + article.articlePublishTime+"&opration=detail";
                         var articleName = article.articleName;
                         var inner = " <a href=\""+articleQuery+"\" class='singleTuijian'>\n" +
                             "                        <li class=\"tuijianArticleList\">\n" +
@@ -208,7 +215,7 @@
     检验用户是否已经登录
     */
     (function(){
-    	var requestUserStatus="http://localhost:8080/Blog/UserServlet?status=1";
+    	var requestUserStatus=serverRoot+"/UserServlet?status=1";
         var req = new Request();
         var parseRequest = new ParseResponse();
         req.requestGet(requestUserStatus, parseRequest.userLoginInfo);
@@ -224,7 +231,7 @@
             var request = new Request();
             var parse = new ParseResponse();
             //传递的参数message=-1代表的是获取所有的留言信息
-            var newCommentListAddress = "http://localhost:8080/Blog/LeaveMessageServlet?message=-1";
+            var newCommentListAddress = serverRoot+"/LeaveMessageServlet?message=-1";
             request.requestGet(newCommentListAddress, parse.allLeaveMessage)
         }
     })();
@@ -242,7 +249,7 @@
         	}
             var request = new Request();
             var parseRequest = new ParseResponse();
-            var requestUrl = "http://localhost:8080/Blog/LeaveMessageServlet";
+            var requestUrl = serverRoot+"/LeaveMessageServlet";
             var requestParam = "content=" + userComment.value;
             request.requestPost(requestUrl, parseRequest.postUserComment, requestParam);
         }
@@ -255,7 +262,7 @@
     	   var request = new Request();
            var parse = new ParseResponse();
            //传递的参数message=-1代表的是获取所有的留言信息
-           var newCommentListAddress = "http://localhost:8080/Blog/LeaveMessageServlet?message=-1";
+           var newCommentListAddress = serverRoot+"/LeaveMessageServlet?message=-1";
            request.requestGet(newCommentListAddress, parse.allLeaveMessage);
     })();
     
@@ -266,7 +273,7 @@
     (function () {
         var request = new Request();
         var parse = new ParseResponse();
-        var url = "http://localhost:8080/Blog/ArticleServlet?current=10"
+        var url = serverRoot+"/ArticleServlet?current=10"
         request.requestGet(url, parse.nowArticleInfo);
     })();
 
@@ -567,7 +574,7 @@
 <body>
 
 <div data-v-07578fd8="" class="header-wrap clearfix">
-    <img data-v-07578fd8="" src="../img/logo.9bde9cc.png" alt="段亮个人博客" class="logo fl">
+       <span style="display: inline-block;height: 60px;font-size: 22px;line-height: 60px;color: #111;">小芳芳的博客</span>
     <div data-v-07578fd8="" class="nav-wrap">
         <ul data-v-07578fd8="" class="nav-list">
             <li data-v-07578fd8="" class="nav-item "><a href="index.html" >首页</a></li>
@@ -590,7 +597,7 @@
 	<div class="container">
 		<!-- 头部的指示器 -->
 			<div class="indictor">
-				<img alt="指数器" class="indictorImg" src="http://localhost:8080/Blog/html/img/position.svg">
+				<img alt="指数器" class="indictorImg" src="../img/position.svg">
 				<span>首页</span>&gt;
 				<span>网站留言</span>
 		    </div>
@@ -602,7 +609,7 @@
                 <div class="articleCommentBox">
                     <!--用户留言-->
                     <div class="commentArea">
-                        <img src="http://localhost:8080/Blog/jsp/images/head.jpeg" class="userHeader" align="left" hspace="10px">
+                        <img src="/Blog/jsp/images/head.jpeg" class="userHeader" align="left" hspace="10px">
                         <form action="#" method="post">
                             <textarea name="userComment" placeholder="有什么想对方志月这小子说的" class="videoComment"></textarea>
                             <input type="button" value="点击评论" class="commentSubmit" id="commentSubmit">
@@ -638,7 +645,7 @@
                   <div class="searchArea">
                     <div class="searchBox">
                         <input type="text" maxlength="40" size="24" value="全站搜索" class="inputSearch">
-                        <img src="http://localhost:8080/Blog/html/img/search.svg" class="searchIcon" id="searchButton"/>
+                        <img src="../img/search.svg" class="searchIcon" id="searchButton"/>
                       	
                     </div>
                 </div>
