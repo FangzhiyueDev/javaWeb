@@ -1,4 +1,4 @@
-package com.fang.day03.web;
+package com.fang.day01.attr.inject.p.namespace;
 
 public class UserServiceImpl implements UserService {
 

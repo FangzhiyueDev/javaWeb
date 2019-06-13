@@ -1,4 +1,4 @@
-package com.fang.day03.web;
+package com.fang.day03.web.install.annotation.service;
 
 public interface UserService {
 

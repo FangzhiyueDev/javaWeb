@@ -7,8 +7,39 @@
 
 
 
-<!-- 需要创建的对象 -->
-<bean id="userServiceId" class="com.fang.day01.ioc.UserServiceImpl"></bean>
+<!-- 
+尽管使用的是构造函数注入方式，但是依然需要定义默认的构造函数才行
+
+ -->
+<bean id="userId" class="com.fang.day01.attr.inject.User">
+    <!-- 构造方法注入 -->
+    <constructor-arg name="username" type="java.lang.String" value="jock"></constructor-arg>
+    
+   <constructor-arg name="age" value="18"></constructor-arg>
+
+</bean>
+
+
+<!-- set方式注入 -->
+
+<bean id="userId1" class="com.fang.day01.attr.inject.User">
+		<property name="username" value="fangfang"></property>
+	   <property name="age" value="16"></property>
+</bean>
+
+<bean id="userId2" class="com.fang.day01.attr.inject.User">
+		<property name="username" value="fangfang"></property>
+	   <property name="age">
+	   <value>44</value>
+	   </property>
+</bean>
+
+
+
+
+
+
+
 
 
 

@@ -1,4 +1,4 @@
-package com.fang.day03.web;
+package com.fang.day03.web.bean.scope;
 
 import java.io.IOException;
 

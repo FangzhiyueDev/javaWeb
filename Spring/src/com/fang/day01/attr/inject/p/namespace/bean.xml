@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+	<!-- 尽管使用的是构造函数注入方式，但是依然需要定义默认的构造函数才行 -->
+
+
+	<bean
+		id="personId"
+		class="com.fang.day01.attr.inject.p.namespace.Person">
+
+		<property
+			name="name"
+			value="淡淡的忧伤"></property>
+		<property
+			name="address"
+			value="安徽六安"></property>
+	</bean>
+
+
+	<bean
+		id="userId"
+		class="com.fang.day01.attr.inject.p.namespace.User"
+		p:username="xiaofangfang"
+		p:age="23"
+		p:person-ref="personId">
+
+		<property name="nike">
+			<array>
+				<value>DS</value>
+				<value>DZD</value>
+				<value>屌丝</value>
+				<value>屌中屌</value>
+			</array>
+		</property>
+		
+		<property name="friends">
+			<list>
+				<value>于嵩楠</value>
+				<value>曾卫</value>
+				<value>杨煜</value>
+				<value>曾小贤</value>
+			</list>
+		</property>
+
+	</bean>
+
+
+
+
+
+</beans>
