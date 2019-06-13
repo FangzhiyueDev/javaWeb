@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
+  <display-name>Spring</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  
+  
+  <!-- 
+  
+  spring web的实现   
+  
+  我们知道spring 提供了对web的实现的支持的
+ 我们希望在上下文加载完成的时候，我们去加载spring容器
+ spring提供了ContextLoaderListener提供的就是在上下文加载的时候的监听实现对spring容器的加载
+   -->
+   
+  <context-param>
+  	<param-name>contextConfigLocation</param-name>
+  	<param-value>classpath:applicationContext.xml</param-value>
+  </context-param>
+   
+   
+   <listener>
+   <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+   </listener>
+   
+   
+   <listener>
+   <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+ </listener>
+ 
+ 
+ 
+  
+</web-app>

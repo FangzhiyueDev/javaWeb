@@ -103,7 +103,7 @@
 				<Valve className="org.apache.catalina.valves.AccessLogValve" directory="logs" pattern="%h %l %u %t &quot;%r&quot; %s %b" prefix="localhost_access_log" suffix=".txt"/>
 
 				
-			<Context docBase="Blog" path="/Blog" reloadable="true" source="org.eclipse.jst.jee.server:Blog"/></Host>
+			<Context docBase="Blog" path="/Blog" reloadable="true" source="org.eclipse.jst.jee.server:Blog"/><Context docBase="music" path="/music" reloadable="true" source="org.eclipse.jst.jee.server:music"/><Context docBase="Spring" path="/spring" reloadable="true" source="org.eclipse.jst.jee.server:Spring"/></Host>
 			
 			
 			<Host appBase="/home/fang/Music" autoDeploy="true" name="www.fang.music" unpackWARs="true">

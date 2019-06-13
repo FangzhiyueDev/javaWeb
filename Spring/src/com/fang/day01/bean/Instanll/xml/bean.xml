@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+<!-- 默认构造
+	必须提供默认构造
+-->
+<bean id="userServiceId" class="com.fang.day01.bean.Instanll.xml.UserServiceImpl"></bean>
+
+
+<!-- 静态工厂 -->
+<bean id="userServiceId1" class="com.fang.day01.bean.Instanll.xml.StaticFactory" factory-method="getUserService"></bean>
+
+
+<!--实例工厂 -->
+
+<bean id="instanceFactoryId" class="com.fang.day01.bean.Instanll.xml.InstanceFactory"></bean>
+
+<bean id="userServiceId2" factory-bean="instanceFactoryId" factory-method="createService"></bean>
+
+
+</beans>

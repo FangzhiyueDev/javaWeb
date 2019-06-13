@@ -6,6 +6,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script type="text/javascript" src="/music/MusicProject/index.js"></script>
     <title>Title</title>
     <script>
 
@@ -33,7 +34,7 @@
             var onLoadUserData = function () {
 
                 var url1 = "?loginStatus=false";
-                sendAjax("http://125.204.82.25:80/music/UserLoginAction" + url1,
+                sendAjax(serverRoot+"/UserLoginAction" + url1,
                     function (response) {
 						
                         var user = JSON.parse(response);//传递的是user对象
@@ -46,7 +47,6 @@
             };
             onLoadUserData();
 
-            var server="http://125.204.82.25:80/music"
 
             function touchEvent() {
 
@@ -61,7 +61,7 @@
             			  var sn=tdSet[1].innerText;
             			  var image=document.getElementsByClassName("albumImage")[0].src;
             			  var musicAddress=tdSet[3].innerText;
-                          source.src = server + musicAddress;
+                          source.src = serverRoot + musicAddress;
                           var img = document.getElementById("playingMusic");
                           var musicName = document.getElementById("musicName");
                           var singerName = document.getElementById("singerName");
@@ -146,17 +146,18 @@
 </head>
 <body>
 
-<sql:setDataSource driver="com.mysql.jdbc.Driver" user="root" password="sunday" url="jdbc:mysql://125.204.82.25:3306/music"/>
+<sql:setDataSource driver="com.mysql.jdbc.Driver" user="root" password="123" url="jdbc:mysql://localhost:3306/wwMusic"/>
 <sql:query var="singer" >
 	select singer.*, m.name musicName, m.id musicId, m.playTime,m.musicAddress
 	from singer
-       join music m on singer.Id = m.singerId
-	WHERE singerId=?;
+       left join music m on singer.Id = m.singerId
+	WHERE singer.Id=?;
    <sql:param value="${param.singerId}"></sql:param>
 	
 </sql:query>
 
 
+ <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 
 <!--创建导航条-->
@@ -179,7 +180,7 @@
 
 <div class="container">
     <!--左边的容器-->
-    <img src="http://125.204.82.25:80/music${singer.rows[0].image}" style="float: left;" width="250px" class="albumImage"/>
+    <img src="${path}${singer.rows[0].image}" style="float: left;width: 250px;height:250px;" width="250px;" class="albumImage"/>
     <div class="" style="float: left;padding-left: 200px;width: 500px">
         <h2 style="margin-bottom: 20px">${singer.rows[0].name}</h2>
         <ul class="singerInfo">

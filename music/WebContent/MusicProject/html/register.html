@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+         integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+         <script type="text/javascript" src="../jquery-3.3.1.min.js"></script>
+         <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" 
+         integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" 
+         crossorigin="anonymous"></script>
+        <script type="text/javascript" src="../index.js"></script>
+</head>
+
+<script type="text/javascript">
+
+
+function sendAjax(url, response) {
+    var xhr;
+    if (window.XMLHttpRequest) {
+        xhr = new XMLHttpRequest();
+    } else {
+        xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+            response(xhr.responseText);
+        }
+    }
+    xhr.open("GET", url, true);
+    xhr.send();
+}
+
+
+  $(document).ready(function(){
+	  
+	  $("#submit").click(function(){
+		
+		  let user=$("#user").val().trim();
+		  let password=$("#password").val().trim();
+		  let repassword=$("#repassword").val().trim();
+		  
+		  if(user.length==0||password.length==0){
+			  alert("请输入用户名");
+			  return;
+		  }
+		  if(password!=repassword){
+			  alert("两次密码不一致");
+			  return;
+		  }
+		  
+		  
+		  let url=serverRoot+"/UserServlet?action=register&user="+user+"&password="+password;
+		  
+		  sendAjax(url,function(response){
+			  let resObj=JSON.parse(response);
+			  alert(resObj.responseContent);
+			  if(resObj.responseCode==0){
+				  window.location.href="./index.html";  
+			  }
+		  });
+		  
+	  })
+  })
+
+
+
+</script>
+
+<body>
+
+<div class="container">
+<div  style="width:300px;margin: 0 auto;position: fixed;top: 30%;left: 40%;">
+    <h1>注册界面</h1>
+    <form method="get">
+    
+     <div class="form-group">
+    	<label for="user">用户</label>
+    	<input type="email" class="form-control" id="user" placeholder="user">
+  	</div>
+  	
+  	<div class="form-group">
+    	<label for="password">密码</label>
+    	<input type="password" class="form-control" id="password" placeholder="password">
+  	</div>
+  	
+  		<div class="form-group">
+    	<label for="repassword">密码</label>
+    	<input type="password" class="form-control" id="repassword" placeholder="password">
+  	</div>
+  	
+  	<input type="button" class="btn btn-success btn-block" value="提交" id="submit">
+    		
+
+    </form>
+</div>
+</div>
+
+
+</body>
+</html>

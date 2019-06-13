@@ -74,7 +74,7 @@ function CreateDisplayTemplate(modelWrapper) {
                 var obj = this.modelWrapper.list[i];
 
                 single = " <div class=\"columnSingleMenu\">\n" +
-                    "            <img src=\"" + servler + obj.image + "\" class=\"" + imgClass + "\"/>\n" +
+                    "            <img src=\"" + serverRoot + obj.image + "\" class=\"" + imgClass + "\"/>\n" +
                     "            <p class=\"" + textAlignCenter + " title1\">" + obj.title1 + "</p>\n" +
                     "            <p class=\"" + textAlignCenter + " title2\" > " + obj.title2 + "</p>\n" +
                     "            <p class=\"" + textAlignCenter + " title3\">" + obj.title3 + "</p>\n" +
@@ -87,7 +87,7 @@ function CreateDisplayTemplate(modelWrapper) {
                 var single;
                 var obj = this.modelWrapper.list[i];
                 single = " <div class=\"columnSingleMenu\">\n" +
-                    "            <img src=\"" + servler + obj.image + "\" class=\"" + imgClass + "\"/>\n" +
+                    "            <img src=\"" + serverRoot + obj.image + "\" class=\"" + imgClass + "\"/>\n" +
                     "            <p class='title1 " + textAlignCenter + "'>" + obj.name + "</p>\n" +
                     "            <p class='title3 " + textAlignCenter + "' style='color:#f47615'>" + obj.describute + "</p>\n" +
                     "        </div>"

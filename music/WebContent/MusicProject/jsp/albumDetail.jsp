@@ -7,6 +7,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <script type="text/javascript" src="/music/MusicProject/index.js"></script>
     <title>Title</title>
     <style>
         a {
@@ -86,7 +87,7 @@
     		 var onLoadUserData = function () {
 
                  var url1 = "?loginStatus=false";
-                 sendAjax("http://125.204.82.25:80/music/UserLoginAction" + url1,
+                 sendAjax(serverRoot+"/UserLoginAction" + url1,
                      function (response) {
                          var user = JSON.parse(response);//传递的是user对象
                          if (user == null || user.name == null) {
@@ -97,7 +98,7 @@
              };
              onLoadUserData();	
              
-             var server="http://125.204.82.25:80/music";
+  
              //下面是点击事件的处理
              function clickEvent(){
             	 
@@ -112,7 +113,7 @@
             			  var sn=tdSet[1].innerText;
             			  var image=document.getElementsByClassName("albumImage")[0].src;
             			  var musicAddress=tdSet[3].innerText;
-                          source.src = server + musicAddress;
+                          source.src = serverRoot + musicAddress;
                           var img = document.getElementById("playingMusic");
                           var musicName = document.getElementById("musicName");
                           var singerName = document.getElementById("singerName");
@@ -137,7 +138,9 @@
     </script>
 </head>
 <body>
-<sql:setDataSource driver="com.mysql.jdbc.Driver" user="root" password="sunday" url="jdbc:mysql://125.204.82.25:3306/music"/>
+<sql:setDataSource driver="com.mysql.jdbc.Driver" user="root" password="123" url="jdbc:mysql://localhost:3306/wwMusic"/>
+
+
 
 <sql:query var="albums" >
 	select music.id, music.name musicName, s.name singerName, music.playTime,music.musicAddress, a.*
@@ -150,6 +153,7 @@
 </sql:query>
 
 
+ <c:set var="path" value="${pageContext.request.contextPath}"/>
 
 
 <!--创建导航条-->
@@ -175,7 +179,7 @@
 
 <div style="width: 1000px;margin: 0 auto;">
     <div class="leftContainer" style="float: left;">
-        <img src="http://125.204.82.25:80/music${albums.rows[0].image}" width="240px" style="display: block" class="albumImage"/>
+        <img src="${path}${albums.rows[0].image}" width="240px" style="display: block" class="albumImage"/>
         <ul>
             <li>专辑语种 <span>${albums.rows[0].language}</span></li>
             <li>唱片公司 <span>${albums.rows[0].company}</span></li>
@@ -189,7 +193,7 @@
 
 
     <div class="rightContainer" style="float: left;">
-        <img src="http://125.204.82.25:80/music${ albums.rows[0].image}" width="40px" style="border-radius: 3px"/>
+        <img src="${path}${ albums.rows[0].image}" width="40px" style="border-radius: 3px"/>
         <span style="margin-left: 10px;font-size: 13px;color: #9a9a9c;">${albums.rows[0].publishTime}  发行</span>
         <h2 style="margin-top: 10px;margin-bottom: 10px">${albums.rows[0].name}</h2>
         <h6 style="color: #6f6f71;font-size: 14px;margin-bottom: 10px">${albums.rows[0].type}</h6>
@@ -244,7 +248,6 @@ background: #111111;color: #ffffff;">
                 <li><span id="musicName"></span></li>
             </ul>
         </div>
-
     </div>
 </div>
 

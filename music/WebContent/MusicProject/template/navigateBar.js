@@ -86,6 +86,32 @@ var createView = "<div class=\"navigateBarContainer\">\n" +
 
 function validate(){
 	
+	
+	function sendAjax(url, response) {
+        var xhr;
+        if (window.XMLHttpRequest) {
+            xhr = new XMLHttpRequest();
+        } else {
+            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState == 4 && xhr.status == 200) {
+                response(xhr.responseText);
+            }
+        }
+        xhr.open("GET", url, true);
+        xhr.send();
+    }
+	
+	//进行下线
+	sendAjax(serverRoot+"/UserServlet?action=logout",function(response){
+		/**
+		 * 刷新当前的界面
+		 */
+		window.location.reload();
+	})
+	
+	
 }
 
 /**

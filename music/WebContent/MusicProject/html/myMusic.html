@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript" src="../index.js"></script>
     <style>
 
         * {
@@ -75,7 +76,7 @@
             "                </tr>";
 
 
-        var url = "http://129.204.82.25:80/music/UserCenter";
+        var url = serverRoot+"/UserCenter";
 
         function sendAjax(url, response) {
             var xhr;
@@ -127,7 +128,6 @@
             };
             
             
-            var server="http://129.204.82.25:80/music"
 
 
             function loadDataReal(text) {
@@ -220,7 +220,7 @@
                                   	var source=document.getElementById("audioResource");	
                                   	musicName.innerText = mn;
                                   	singerName.innerText =sn;
-                                  	source.src=server+musicAddress;
+                                  	source.src=serverRoot+musicAddress;
                                   	source.play();
                                 }  
                             }
@@ -244,11 +244,11 @@
             var onLoadUserData = function () {
 
                 var url1 = "?loginStatus=false";
-                sendAjax("http://129.204.82.25:80/music/UserLoginAction" + url1,
+                sendAjax(serverRoot+"/UserLoginAction" + url1,
                     function (response) {
                         var user = JSON.parse(response);//传递的是user对象
                         if (user == null || user.name == null) {
-                        	location.href="../html/login.html"
+                        	location.href="./index.html"
                         } else {
                             setLoginStatus(true, user.name);
                         }

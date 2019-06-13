@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>我我音乐</title>
+        <script type="text/javascript" src="../index.js"></script>
     <style>
         * {
             margin: 0px;
@@ -113,8 +114,6 @@
     <script>
 
 
-        var servler = "http://129.204.82.25:80/music";
-
         /**
          *
          * @param html
@@ -127,7 +126,7 @@
 
 
        // var url = "http://129.204.82.25:8080/music/DataCenter";
-        var url = "http://129.204.82.25:80/music/DataCenter";
+        var url = serverRoot+"/DataCenter";
 
 
         window.onload = function () {
@@ -194,12 +193,12 @@
                             //传递歌曲的id,到服务器，查询歌曲的address，用来获取详细信息，传递到歌曲的播放界面
                             // location.href = url + "?musicId=" + classWrapper[this.tag].musicId;//
                             var source = document.getElementById("audioResource");
-                            source.src = servler + classWrapper[this.tag].musicAddress;
+                            source.src = serverRoot + classWrapper[this.tag].musicAddress;
                          
                             var img = document.getElementById("playingMusic");
                             var musicName = document.getElementById("musicName");
                             var singerName = document.getElementById("singerName");
-                            img.src = servler + classWrapper[this.tag].image;
+                            img.src = serverRoot + classWrapper[this.tag].image;
                             musicName.innerText = classWrapper[this.tag].musicName;
                             singerName.innerText = classWrapper[this.tag].singerName;
 
@@ -307,7 +306,7 @@
             var onLoadUserData = function () {
 
                 var url1 = "?loginStatus=false";
-                sendAjax("http://129.204.82.25:80/music/UserLoginAction" + url1,
+                sendAjax(serverRoot+"/UserLoginAction" + url1,
                     function (response) {
                
                         var user = JSON.parse(response);//传递的是user对象

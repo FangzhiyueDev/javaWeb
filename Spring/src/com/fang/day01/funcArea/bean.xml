@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+       					   http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+
+<!-- 
+   每一词调用getBean的时候都去创建一个bean
+-->
+<bean id="userServiceId" scope="prototype" class="com.fang.day01.funcArea.UserServiceImpl"></bean>
+
+<!-- 
+每一次请求都会创建一个bean
+ -->
+<bean id="userServiceId1" scope="request" class="com.fang.day01.funcArea.UserServiceImpl"></bean>
+
+<!-- 
+在一个 session中共享一个bean
+ -->
+<bean id="userServiceId2" scope="session" class="com.fang.day01.funcArea.UserServiceImpl"></bean>
+
+<!-- 
+   单例的实现
+ -->
+<bean id="userServiceId3" scope="singleton" class="com.fang.day01.funcArea.UserServiceImpl"></bean>
+
+
+
+</beans>
