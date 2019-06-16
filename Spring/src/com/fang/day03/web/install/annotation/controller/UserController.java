@@ -3,8 +3,6 @@ package com.fang.day03.web.install.annotation.controller;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,13 +15,8 @@ import com.fang.day01.bean.Instanll.annotation.UserService;
  *
  */
 
-@Controller
 public class UserController {
 
-	/**
-	 * 注入service的实现
-	 */
-	@Autowired
 	private UserService userService;
 
 	public void setUserService(UserService userService) {
@@ -40,7 +33,7 @@ public class UserController {
 		users.add("添加");
 
 		// 调用 Service
-//		userService.addUser();
+		userService.addUser();
 		return "index";
 	}
 }

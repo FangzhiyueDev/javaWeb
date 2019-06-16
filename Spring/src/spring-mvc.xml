@@ -14,29 +14,44 @@
 
 	<!-- 下面是关于web上面的注解开发的上使用 使用的是web相关的注解实现 -->
 
-	<context:component-scan
-		base-package="com.fang.day03.web.install.annotation.controller"></context:component-scan>
+	<!-- <context:component-scan base-package="com.fang.day03.web.install.annotation.controller"></context:component-scan> -->
 
 	<!-- 定义的是service扫描 -->
-	<context:component-scan
-		base-package="com.fang.day03.web.install.annotation.service"></context:component-scan>
+	<!-- <context:component-scan base-package="com.fang.day03.web.install.annotation.service"></context:component-scan> -->
+
+<bean id="userServiceId" class="com.fang.day03.web.install.annotation.service.UserServiceImpl"></bean>
+
+
+   <bean id="userControllerId" class="com.fang.day03.web.install.annotation.controller.UserController">
+   		<property name="userService" ref="userServiceId"></property>
+   </bean>
+   
+   
+   
+
+
+
+
+
+
+
 
 	<!-- 定义的是dao层的扫描 -->
-	<context:component-scan
-		base-package="com.fang.day03.web.install.annotation.respository"></context:component-scan>
 
-	<mvc:annotation-driven />
-	<mvc:default-servlet-handler />
+	<!-- <context:component-scan base-package="com.fang.day03.web.install.annotation.respository"></context:component-scan> 
+		<mvc:annotation-driven /> <mvc:default-servlet-handler /> -->
 
-	
-	  <!--配置视图解析器
-        所有的jso页面都在/WEB-INF/jsp页面下
-        如果没有设置这个解析器，就需要编写全路径名
-    -->
-    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/jsp/"></property>
-        <property name="suffix" value=".jsp"></property>
-    </bean>
+	<!--配置视图解析器 所有的jso页面都在/WEB-INF/jsp页面下 如果没有设置这个解析器，就需要编写全路径名 -->
+	<bean
+		id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property
+			name="prefix"
+			value="/WEB-INF/jsp/"></property>
+		<property
+			name="suffix"
+			value=".jsp"></property>
+	</bean>
 
 
 
